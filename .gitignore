@@ -1,0 +1,5 @@
+*.dll
+engine/
+libs/
+obj/
+projects/
