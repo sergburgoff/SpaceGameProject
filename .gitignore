@@ -3,3 +3,7 @@ engine/
 libs/
 obj/
 projects/
+bin/write_directory/
+*.exe
+*.pdb
+

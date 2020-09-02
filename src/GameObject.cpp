@@ -11,9 +11,9 @@ void GameObject::setTexture(std::string texture_name)
 	_texture = Core::resourceManager.Get<Render::Texture>(texture_name);
 }
 
-Render::texture & GameObject::getTexture()
+Render::Texture& GameObject::getTexture()
 {
-	return _texture;
+	return *_texture;
 }
 
 void GameObject::Draw(float pos_x, float pos_y)
@@ -26,4 +26,12 @@ void GameObject::Draw(float pos_x, float pos_y)
 	Render::device.MatrixScale(scale_x, scale_y, 1.5f);
 	_texture->Draw();
 	Render::device.PopMatrix();
+}
+
+bool GameObject::CheckCollision(GameObject &one, GameObject &two)
+{
+	return (one.x < two.x + two.scale_x &&
+		one.x + one.scale_x > two.x &&
+		one.y < two.y + two.scale_y &&
+		one.y + one.scale_y > two.y);
 }

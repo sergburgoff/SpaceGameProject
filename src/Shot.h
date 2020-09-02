@@ -4,6 +4,6 @@ class Shot : GameObject
 {
 	const float speed = 0;
 
-	void Death_Animation() override;
+	void DeathAnimation() override;
 };
 
