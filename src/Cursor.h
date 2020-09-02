@@ -3,6 +3,7 @@
 class Cursor : GameObject
 {
 public:
+	Cursor();
 	enum State 
 	{
 		PASSIVE,

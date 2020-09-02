@@ -1,8 +1,14 @@
 #include "stdafx.h"
 #include "Cursor.h"
 
+Cursor::Cursor()
+{
+	_texture = Core::resourceManager.Get<Render::Texture>("CURSOR_AIM");
+}
+
 void Cursor::Draw(float pos_x, float pos_y)
 {
+	IPoint mouse_pos = Core::mainInput.GetMousePos();
 	switch (currentState)
 	{
 	case PASSIVE:
@@ -19,7 +25,7 @@ void Cursor::Draw(float pos_x, float pos_y)
 		break;
 	}
 	Render::device.PushMatrix();
-	Render::device.MatrixTranslate(pos_x, pos_y, 0);
+	Render::device.MatrixTranslate(mouse_pos.x, mouse_pos.y, 0);
 	_texture->Draw();
 	Render::device.PopMatrix();
 }

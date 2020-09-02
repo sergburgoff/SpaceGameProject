@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "TestAppDelegate.h"
 #include "LevelFirst.h"
+#include "TestWidget.h"
 
 enum {
 	WINDOW_WIDTH = 1024,

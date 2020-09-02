@@ -9,12 +9,9 @@
     <texture id="Star" path="textures/star.png" group="TestGroup" upload="false"/>
     <texture id="Circle" path="textures/circle.png" group="TestGroup" upload="false"/>
     <texture id="btnStart_Text" path="textures/Local/Buttons/Start_text.png" group="MainMenu" upload="true"/>
-    <texture id="cancel_normal" path="textures/cancel_normal" />
-    <texture id="cancel_active" path="textures/cancel_active" />
-    <texture id="cancel_pressed" path="textures/cancel_pressed" />
-    <texture id="Gun" path="textures/Locale/Gun/Cannon" />
-    <texture id="Bullet" path="textures/Locale/Gun/Bullet" />
-    <texture id="CURSOR_AIM" path="textures/Locale/Cursors/Aim" />
-    <textute id="simple_enemy" path="texturs/Locale/Targets/Simple" />
+    <texture id="Gun" path="textures/Local/Gun/Cannon.png" />
+    <texture id="Bullet" path="textures/Local/Gun/Bullet" />
+    <texture id="CURSOR_AIM" path="textures/Local/Cursors/Aim" />
+    <texture id="simple_enemy" path="textures/Local/Targets/Simple" />
 	</Textures>
 </Resources>

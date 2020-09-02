@@ -1,6 +1,11 @@
 #include "stdafx.h"
 #include "SimpleEnemy.h"
 
+SimpleEnemy::SimpleEnemy()
+{
+	_texture = Core::resourceManager.Get<Render::Texture>("SimpleEnemy");
+}
+
 bool SimpleEnemy::CheckCollision(GameObject &one, GameObject &two)
 {
 	if (one.x < two.x + two.scale_x &&

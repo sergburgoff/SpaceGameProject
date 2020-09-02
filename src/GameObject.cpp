@@ -18,14 +18,15 @@ Render::Texture& GameObject::getTexture()
 
 void GameObject::Draw(float pos_x, float pos_y)
 {
-	IPoint mouse_pos = Core::mainInput.GetMousePos();
-
 	Render::device.PushMatrix();
-	Render::device.MatrixTranslate(pos_x, pos_y, 0);
-	Render::device.MatrixRotate(math::Vector3(0, 0, 1), _angle);
-	Render::device.MatrixScale(scale_x, scale_y, 1.5f);
-	_texture->Draw();
+	//Render::device.MatrixTranslate(pos_x, pos_y, 0);
+	//Render::device.MatrixRotate(math::Vector3(0, 0, 1), _angle);
+	//Render::device.MatrixScale(scale_x, scale_y, 1.5f);
 	Render::device.PopMatrix();
+	_texture->Bind();
+	Render::DrawRect(pos_x, pos_y, 1000, 100);
+	
+	//_texture->Draw();
 }
 
 bool GameObject::CheckCollision(GameObject &one, GameObject &two)

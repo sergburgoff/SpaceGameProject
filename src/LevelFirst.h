@@ -25,6 +25,8 @@ private:
 	float _scale;
 	float _angle;
 
+	int _curTex;
+
 	EffectsContainer _effCont;
 	ParticleEffectPtr _eff;
 
