@@ -1,8 +1,23 @@
 <?xml version="1.0"?>
 <GUI>
-	<Layer name="TestLayer">
+  <Layer name="Start">
+      <Controls>
+        <Panel name="MyPanel">
+          <texture name ="Background" />
+          <Button name="StartButton">
+            <position x="400" y="100"/>
+            <state normal="StartButtonNormal" active="StartButtonActive" pressed="StartButtonPressed"/>
+          </Button>
+        </Panel>
+      </Controls>
+  </Layer>
+	<Layer name="Game">
 		<Controls>
-			<TestWidget name="TestWidget"/>
+			<texture name="Background"/>
+      <TestWidget name="LevelFirst"/>
 		</Controls>
 	</Layer>
+  <Layer name="End">
+    
+  </Layer>
 </GUI>
