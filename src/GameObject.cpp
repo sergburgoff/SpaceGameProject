@@ -16,7 +16,24 @@ Render::Texture& GameObject::getTexture()
 	return *_texture;
 }
 
-void GameObject::Draw(float pos_x, float pos_y)
+void GameObject::setPosition(float x, float y)
+{
+	this->x = x;
+	this->y = y;
+}
+
+void GameObject::Rotate(float _angle)
+{
+	this->_angle = _angle;
+}
+
+void GameObject::Scale(float width, float hight)
+{
+	this->width = width;
+	this->hight = hight;
+}
+
+void GameObject::Draw()
 {
 	Render::device.PushMatrix();
 	//Render::device.MatrixTranslate(pos_x, pos_y, 0);
@@ -24,15 +41,15 @@ void GameObject::Draw(float pos_x, float pos_y)
 	//Render::device.MatrixScale(scale_x, scale_y, 1.5f);
 	Render::device.PopMatrix();
 	_texture->Bind();
-	Render::DrawRect(pos_x, pos_y, 1000, 100);
+	Render::DrawRect(x, y, width, hight);
 	
 	//_texture->Draw();
 }
 
-bool GameObject::CheckCollision(GameObject &one, GameObject &two)
+bool GameObject::CheckCollision(GameObject &other)
 {
-	return (one.x < two.x + two.scale_x &&
-		one.x + one.scale_x > two.x &&
-		one.y < two.y + two.scale_y &&
-		one.y + one.scale_y > two.y);
+	return (this->x < other.x + other.width &&
+		this->x + this->width > other.x &&
+		this->y < other.y + other.hight &&
+		this->y + this->hight > other.y);
 }

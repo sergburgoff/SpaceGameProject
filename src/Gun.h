@@ -3,9 +3,9 @@
 class Gun : public GameObject
 {
 public:
-	Gun(std::string texture_name) : GameObject(texture_name) {};
+	Gun() : GameObject("Gun") {};
 	void Reload();
-	void Aim();
+	void Draw() override;
 	void DeathAnimation() override;
 	//Animation
 	//Rotation

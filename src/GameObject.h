@@ -4,20 +4,25 @@ class GameObject
 public:
 	GameObject(std::string texture_name);
 
-	virtual void Draw(float pos_x, float pos_y);
+	virtual void Draw();
+	
+	void setPosition(float x, float y);
+	void Rotate(float _angle);
+	void Scale(float width, float hight);
 
 	virtual void DeathAnimation() = 0;
 	void setTexture(std::string texture_name);
 	Render::Texture& getTexture();
-	static bool CheckCollision(GameObject &one, GameObject &two);
+	virtual bool CheckCollision(GameObject &other);
 
-	std::string type;
-	float x, y;
-	float scale_x = 0, scale_y = 0;
+public:
+	float x = 0, y = 0;
+	float width = 0, hight = 0;
+
 protected:
 	Render::Texture* _texture;
 	
-	float _angle;
+	float _angle = 0;
 
 };
 

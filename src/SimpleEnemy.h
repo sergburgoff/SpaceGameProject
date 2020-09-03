@@ -1,14 +1,17 @@
 #pragma once
 #include "GameObject.h"
-class SimpleEnemy : GameObject
+class SimpleEnemy : public GameObject
 {
 public:
 	SimpleEnemy();
-	void Movement();
-	bool SimpleEnemy::CheckCollision(GameObject &one,
-		GameObject &two) override;
+	bool CheckCollision(GameObject &other) override;
+
+	void Spawn();
+	void ChooseRandDirection();
+
 	void DeathAnimation() override;
 protected:
+	float currentDirection = 0;
 	void ChangeDirection();
 };
 

@@ -1,4 +1,5 @@
 #pragma once
+#include "GameObject.h"
 class LevelFirst : public GUI::Widget
 {
 public:
@@ -18,7 +19,6 @@ public:
 
 private:
 	void Init();
-
 private:
 	float _timer;
 
@@ -31,5 +31,9 @@ private:
 	ParticleEffectPtr _eff;
 
 	TimedSpline<FPoint> spline;
+
+	size_t EnemiesCount = 10;
+	std::vector<GameObject*> MovableTargets;
+	
 };
 

@@ -3,7 +3,7 @@
 class Cursor : GameObject
 {
 public:
-	Cursor();
+	Cursor() : GameObject("CURSOR_AIM") {};
 	enum State 
 	{
 		PASSIVE,
@@ -12,10 +12,11 @@ public:
 		RELOAD
 	};
 	void ChangeState(State newState);
-	
-	void Draw(float pos_x, float pos_y) override;
+	void DeathAnimation() override {}
+	void Draw() override;
 
 private:
+	float width = hight = 50.0f;
 	State currentState;
 };
 

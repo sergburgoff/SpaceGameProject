@@ -1,10 +1,11 @@
 #include "stdafx.h"
+#include <vector>
 #include "LevelFirst.h"
 #include "GameObject.h"
 #include "Gun.h"
 #include "Cursor.h"
 #include "SimpleEnemy.h"
-#include <vector>
+
 
 LevelFirst::LevelFirst(const std::string& name, rapidxml::xml_node<>* elem)
 	: Widget(name)
@@ -19,34 +20,40 @@ LevelFirst::LevelFirst(const std::string& name, rapidxml::xml_node<>* elem)
 
 void LevelFirst::Init()
 {
-	int EnemiesCount = 10;
-	std::vector<GameObject> MovableTargets;
 
 	for (size_t i = 0; i < EnemiesCount; ++i)
 	{
-		MovableTargets.push_back(new SimpleEnemy());
+		SimpleEnemy * newEnemy = new SimpleEnemy();
+		newEnemy->setPosition(100.0f, 100.0f);
+		newEnemy->Scale(500.0f, 500.0f);
+		MovableTargets.push_back(newEnemy);
 	}
 }
 
 void LevelFirst::Draw()
 {
-	Gun myGun("Gun");
-	myGun.Draw(0, 0);
+	Gun myGun;
+	myGun.setPosition(100.0f, 100.0f); // 436
+	myGun.Scale(100.0f, 100.0f);
+	myGun.Draw();
 
-	Cursor cursor();
-
-	for (GameObject* iterator : MovableTargets)
+	Cursor myCursor;
+	//cursor.setPosition();
+	myCursor.Draw();
+	
+	
+	/*for (auto &iterator : MovableTargets)
 	{
 		iterator->Draw();
 	}
 
-	for (GameObject* i : MovableTargets)
+	for (auto &iterator : MovableTargets)
 	{
-		for (GameObject* j : MovableTargets)
+		for (size_t i = 0; i < EnemiesCount; ++i)
 		{
-			GameObject::CheckCollision(*i, *j);
+			iterator->CheckCollision(*(MovableTargets[i]));
 		}
-	}
+	}*/
 
 	Render::device.SetTexturing(false);
 

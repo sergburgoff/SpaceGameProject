@@ -12,6 +12,6 @@
     <texture id="Gun" path="textures/Local/Gun/Cannon.png" />
     <texture id="Bullet" path="textures/Local/Gun/Bullet" />
     <texture id="CURSOR_AIM" path="textures/Local/Cursors/Aim" />
-    <texture id="simple_enemy" path="textures/Local/Targets/Simple" />
+    <texture id="SimpleEnemy" path="textures/Local/Targets/SimpleEnemy" />
 	</Textures>
 </Resources>
