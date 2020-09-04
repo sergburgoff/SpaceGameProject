@@ -18,8 +18,8 @@ public:
 public:
 	float x = 0, y = 0;
 	float width = 0, hight = 0;
-
 protected:
+	
 	Render::Texture* _texture;
 	
 	float _angle = 0;

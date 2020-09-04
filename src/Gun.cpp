@@ -4,9 +4,9 @@
 void Gun::Draw()
 {
 	FPoint mouse_pos = Core::mainInput.GetMousePos();
-
-	_angle = (mouse_pos.y - y) / (mouse_pos.x - x);
-	_angle = math::tan(_angle);
+	float rel_x = mouse_pos.x - x;
+	float rel_y = mouse_pos.y - y;
+	_angle = (180 / math::PI) * -math::atan(rel_y, rel_x);
 	Render::device.PushMatrix();
 	//Render::device.MatrixTranslate(x, y, 0);
 	//Render::device.MatrixRotate(math::Vector3(0, 0, 1), _angle);
@@ -15,7 +15,7 @@ void Gun::Draw()
 	//Render::DrawQuad();
 	//Render::DrawRect(x - width / 2, y - hight / 2, width, hight);
 	Render::device.MatrixTranslate(x, y, 0);
-	Render::device.MatrixRotate(math::Vector3(0, 0, 1), _angle);
+	Render::device.MatrixRotate(math::Vector3(0, 0, 1), -_angle - 90);
 	IRect texRect = _texture->getBitmapRect();
 	FRect rect(texRect);
 	FRect uv(0, 1, 0 , 1);

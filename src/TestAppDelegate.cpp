@@ -22,6 +22,8 @@ void TestAppDelegate::GameContentSize(int deviceWidth, int deviceHeight, int &wi
 	//
 	width = WINDOW_WIDTH;
 	height = WINDOW_HEIGHT;
+	//width = deviceWidth;
+	//height = deviceHeight;
 }
 
 void TestAppDelegate::ScreenMode(DeviceMode &mode)

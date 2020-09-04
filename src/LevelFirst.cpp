@@ -20,12 +20,12 @@ LevelFirst::LevelFirst(const std::string& name, rapidxml::xml_node<>* elem)
 
 void LevelFirst::Init()
 {
+	
+	ShowCursor(false);
 
 	for (size_t i = 0; i < EnemiesCount; ++i)
 	{
 		SimpleEnemy * newEnemy = new SimpleEnemy();
-		newEnemy->setPosition(100.0f, 100.0f);
-		newEnemy->Scale(500.0f, 500.0f);
 		MovableTargets.push_back(newEnemy);
 	}
 }
@@ -33,20 +33,19 @@ void LevelFirst::Init()
 void LevelFirst::Draw()
 {
 	Gun myGun;
-	myGun.setPosition(100.0f, 100.0f); // 436
-	myGun.Scale(100.0f, 100.0f);
-	myGun.Draw();
-
-	Cursor myCursor;
-	//cursor.setPosition();
-	myCursor.Draw();
+	myGun.setPosition(436.0f, 100.0f); // 436
+	myGun.Scale(500.0f, 500.0f);
+	myGun.Draw();	
 	
-	
-	/*for (auto &iterator : MovableTargets)
+	for (auto &iterator : MovableTargets)
 	{
 		iterator->Draw();
 	}
 
+	Cursor myCursor;
+	myCursor.Draw();
+
+	/*
 	for (auto &iterator : MovableTargets)
 	{
 		for (size_t i = 0; i < EnemiesCount; ++i)
@@ -54,6 +53,9 @@ void LevelFirst::Draw()
 			iterator->CheckCollision(*(MovableTargets[i]));
 		}
 	}*/
+
+
+
 
 	Render::device.SetTexturing(false);
 
