@@ -33,7 +33,7 @@ void LevelFirst::Init()
 void LevelFirst::Draw()
 {
 	Gun myGun;
-	myGun.setPosition(436.0f, 100.0f); // 436
+	myGun.setPosition(436.0f, 100.0f);
 	myGun.Scale(500.0f, 500.0f);
 	myGun.Draw();	
 	

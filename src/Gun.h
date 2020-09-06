@@ -8,6 +8,5 @@ public:
 	void Draw() override;
 	void DeathAnimation() override;
 	//Animation
-	//Rotation
 };
 

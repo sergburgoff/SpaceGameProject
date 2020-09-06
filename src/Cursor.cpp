@@ -12,16 +12,16 @@ void Cursor::Draw()
 	switch (currentState)
 	{
 	case PASSIVE:
-		this->setTexture("CURSOR_PASSIVE");
+		setTexture("CURSOR_PASSIVE");
 		break;
 	case ACTIVE:
-		this->setTexture("CURSOR_ACTIVE");
+		setTexture("CURSOR_ACTIVE");
 		break;
 	case AIM:
-		this->setTexture("CURSOR_AIM");
+		setTexture("CURSOR_AIM");
 		break;
 	case RELOAD:
-		this->setTexture("CURSOR_RELOAD");
+		setTexture("CURSOR_RELOAD");
 		break;
 	}
 	Render::device.PushMatrix();
