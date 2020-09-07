@@ -1,7 +1,12 @@
 #include "stdafx.h"
 #include "GameObject.h"
 
-GameObject::GameObject(std::string texture_name)
+GameObject::GameObject(std::string texture_name) 
+	: x(0),
+	y(0),
+	width(0),
+	height(0),
+	_angle(0)
 {
 	_texture = Core::resourceManager.Get<Render::Texture>(texture_name);
 }
@@ -33,12 +38,29 @@ void GameObject::Scale(float width, float hight)
 	this->hight = hight;
 }
 
+float GameObject::getX()
+{
+	return x;
+}
+
+float GameObject::getY()
+{
+	return y;
+}
+
+float GameObject::getWidth()
+{
+	return width;
+}
+
+float GameObject::getHeight()
+{
+	return height;
+}
+
 void GameObject::Draw()
 {
 	Render::device.PushMatrix();
-	//Render::device.MatrixTranslate(pos_x, pos_y, 0);
-	//Render::device.MatrixRotate(math::Vector3(0, 0, 1), _angle);
-	//Render::device.MatrixScale(scale_x, scale_y, 1.5f);
 	Render::device.PopMatrix();
 	_texture->Bind();
 	Render::DrawRect(x, y, width, hight);
@@ -46,18 +68,10 @@ void GameObject::Draw()
 	//_texture->Draw();
 }
 
-void GameObject::Move(float _time)
-{
-	FPoint currentPosition = 
-		spline.getGlobalFrame(math::clamp(0.0f, 1.0f, _time / 6.0f));
-	x = currentPosition.x;
-	y = currentPosition.y;
-}
-
 bool GameObject::CheckCollision(GameObject &other)
 {
-	return (this->x < other.x + other.width &&
-		this->x + this->width > other.x &&
-		this->y < other.y + other.hight &&
-		this->y + this->hight > other.y);
+	return (this->x < other.getX() + other.getWidth() &&
+		this->x + this->width > other.getX() &&
+		this->y < other.getY() + other.getHeight &&
+		this->y + this->height > other.getY());
 }

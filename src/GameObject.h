@@ -10,16 +10,20 @@ public:
 	void Rotate(float _angle);
 	void Scale(float width, float hight);
 
+	float getX();
+	float getY();
+	float getWidth();
+	float getHeight();
+
 	void setTexture(std::string texture_name);
 	Render::Texture& getTexture();
 	virtual bool CheckCollision(GameObject &other);
-
-public:
-	float x = 0, y = 0;
-	float width = 0, hight = 0;
 protected:
+	float x, y;
+	float width, height;
+	float _angle;
+
 	Render::Texture* _texture;
-	float _angle = 0;
 
 };
 

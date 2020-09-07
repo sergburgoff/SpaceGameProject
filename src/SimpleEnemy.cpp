@@ -5,28 +5,10 @@
 #include <thread>
 #include "SimpleEnemy.h"
 
-enum {
+enum { // ÓÁĞÀÒÜ!
 	WINDOW_WIDTH = 1024,
 	WINDOW_HEIGHT = 768
 };
-
-bool SimpleEnemy::CheckCollision(GameObject &other)
-{
-	if (this->x < other.x + other.width &&
-		this->x + this->width > other.x &&
-		this->y < other.y + other.hight &&
-		this->y + this->hight > other.y)
-	{
-		/*
-		ÄÎÏÈÑÀÒÜ ÊÎÄ, ÌÅÍßŞÙÈÉ ÍÀÏĞÀÂËÅÍÈÅ Â ÑËÓ×ÀÅ ÑÒÎËÊÍÎÂÅÍÈß. 
-		*/
-		spline.Clear(); 
-		ChooseRandDirection();
-		return 1; // È ÓÁĞÀÒÜ İÒÎÒ ÊÎÄ ÎÒÑŞÄÀ
-	}
-	else
-		return 0;
-}
 
 SimpleEnemy::SimpleEnemy() : MovableTargets("SimpleEnemy")
 {
@@ -35,7 +17,7 @@ SimpleEnemy::SimpleEnemy() : MovableTargets("SimpleEnemy")
 	std::this_thread::sleep_for(std::chrono::seconds(1));
 	y = Random(1.0f, (float)WINDOW_HEIGHT);
 	spline.addKey(0.0f, FPoint(x, y));
-	ChooseRandDirection();
+	setDirection();
 }
 
 inline int SimpleEnemy::Random(int min, int max)
@@ -54,8 +36,16 @@ inline float SimpleEnemy::Random(float min, float max)
 	return dis(gen);
 }
 
+/*spline.Clear(); 
+ChooseRandDirection();*/
 
-void SimpleEnemy::ChooseRandDirection()
+void SimpleEnemy::onCollision()
+{
+	spline.Clear();
+	setDirection();
+}
+
+void SimpleEnemy::setDirection()
 {
 	float point_x, point_y;
 	
@@ -82,6 +72,13 @@ void SimpleEnemy::ChooseRandDirection()
 		point_x - x);
 	spline.addKey(1.0f, FPoint(point_x, point_y));
 	spline.CalculateGradient();
+}
+
+void SimpleEnemy::Destroy()
+{
+	spline.Clear();
+	DeathAnimation();
+	~SimpleEnemy();
 }
 
 void SimpleEnemy::DeathAnimation()

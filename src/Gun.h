@@ -3,10 +3,9 @@
 class Gun : public GameObject
 {
 public:
-	Gun() : GameObject("Gun") {};
+	Gun();
 	void Reload();
 	void Draw() override;
-	void DeathAnimation() override;
 	//Animation
 };
 

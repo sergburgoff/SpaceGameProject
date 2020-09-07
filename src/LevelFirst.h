@@ -33,7 +33,8 @@ private:
 	TimedSpline<FPoint> spline;
 
 	size_t EnemiesCount = 10;
-	std::vector<GameObject*> MovableTargets;
+	std::vector<MovableTarget*> EnemiesCollection;
+	std::vector<Bullet*> BulletsCollection;
 	
 };
 

@@ -1,10 +1,13 @@
 #include "stdafx.h"
 #include <vector>
-#include "LevelFirst.h"
 #include "GameObject.h"
 #include "Gun.h"
 #include "Cursor.h"
 #include "SimpleEnemy.h"
+#include "MovableTarget.h"
+#include "Bullet.h"
+#include "LevelFirst.h"
+
 
 
 LevelFirst::LevelFirst(const std::string& name, rapidxml::xml_node<>* elem)
@@ -26,7 +29,7 @@ void LevelFirst::Init()
 	for (size_t i = 0; i < EnemiesCount; ++i)
 	{
 		SimpleEnemy * newEnemy = new SimpleEnemy();
-		MovableTargets.push_back(newEnemy);
+		EnemiesCollection.push_back(newEnemy);
 	}
 }
 
@@ -37,29 +40,38 @@ void LevelFirst::Draw()
 	myGun.Scale(500.0f, 500.0f);
 	myGun.Draw();	
 	
-	for (auto &iterator : MovableTargets)
+	for (auto &bullet : BulletsCollection)
+	{
+		bullet->Move(_timer);
+		bullet->Draw();
+	}
+
+	for (auto &iterator : EnemiesCollection)
 	{
 		iterator->Move(_timer);
-		iterator->Draw();
 		
-		for (auto &other : MovableTargets)
-			iterator->CheckCollision(*other);
+		for (auto &other = EnemiesCollection.begin() + 1; other == EnemiesCollection.end(); ++other)
+		{
+			if (iterator->CheckCollision(*other))
+				iterator->onCollision();
+		}
+		for (auto &bullet : BulletsCollection)
+		{
+			if (iterator->CheckCollision(*bullet))
+			{
+				iterator->Destroy();
+				bullet->Destroy();
+				// ÓÄÀËÅÍÈÅ ÂÐÀÃÀ
+				//ÓÄÀËÅÍÈÅ ÏÓËÈ
+				continue;
+			}
+		}
+
+		iterator->Draw();
 	}
 
 	Cursor myCursor;
 	myCursor.Draw();
-
-	/*
-	for (auto &iterator : MovableTargets)
-	{
-		for (size_t i = 0; i < EnemiesCount; ++i)
-		{
-			iterator->CheckCollision(*(MovableTargets[i]));
-		}
-	}*/
-
-
-
 
 	Render::device.SetTexturing(false);
 
@@ -98,6 +110,11 @@ void LevelFirst::Update(float dt)
 
 bool LevelFirst::MouseDown(const IPoint &mouse_pos)
 {
+	if (Core::mainInput.GetMouseLeftButton())
+	{
+		Bullet * newBullet = new Bullet();
+		BulletsCollection.push_back(newBullet);
+	}
 	return true;
 }
 

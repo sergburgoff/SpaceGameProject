@@ -1,22 +1,16 @@
 #pragma once
-#include "MovableTargets.h"
+#include "MovableTarget.h"
 class SimpleEnemy : public MovableTargets
 {
 public:
 	SimpleEnemy();
-	bool CheckCollision(GameObject &other) override;
- 
-	void ChooseRandDirection();
-	void Move();
-
+	
+	void onCollision();
+	void Destroy() override;
 	void DeathAnimation() override;
-
 protected:
-
+	void setDirection() override;
 	int Random(int min, int max);
 	float Random(float min, float max);
-
-protected:
-	float currentDirection = 0;
 };
 
