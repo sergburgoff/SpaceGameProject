@@ -46,6 +46,14 @@ void GameObject::Draw()
 	//_texture->Draw();
 }
 
+void GameObject::Move(float _time)
+{
+	FPoint currentPosition = 
+		spline.getGlobalFrame(math::clamp(0.0f, 1.0f, _time / 6.0f));
+	x = currentPosition.x;
+	y = currentPosition.y;
+}
+
 bool GameObject::CheckCollision(GameObject &other)
 {
 	return (this->x < other.x + other.width &&

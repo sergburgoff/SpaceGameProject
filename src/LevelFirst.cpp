@@ -39,7 +39,11 @@ void LevelFirst::Draw()
 	
 	for (auto &iterator : MovableTargets)
 	{
+		iterator->Move(_timer);
 		iterator->Draw();
+		
+		for (auto &other : MovableTargets)
+			iterator->CheckCollision(*other);
 	}
 
 	Cursor myCursor;
@@ -84,7 +88,12 @@ void LevelFirst::Draw()
 
 void LevelFirst::Update(float dt)
 {
-	
+	_timer += dt *2;
+
+	while (_timer > 2 * math::PI)
+	{
+		_timer -= 2 * math::PI;
+	}
 }
 
 bool LevelFirst::MouseDown(const IPoint &mouse_pos)

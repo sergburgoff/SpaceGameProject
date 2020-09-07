@@ -10,7 +10,6 @@ public:
 	void Rotate(float _angle);
 	void Scale(float width, float hight);
 
-	virtual void DeathAnimation() = 0;
 	void setTexture(std::string texture_name);
 	Render::Texture& getTexture();
 	virtual bool CheckCollision(GameObject &other);

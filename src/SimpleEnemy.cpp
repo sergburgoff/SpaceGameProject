@@ -17,19 +17,24 @@ bool SimpleEnemy::CheckCollision(GameObject &other)
 		this->y < other.y + other.hight &&
 		this->y + this->hight > other.y)
 	{
-		/*if (other.type == "Bullet")
-			DeathAnimation();
-		return 1;*/
+		/*
+		днохяюрэ йнд, лемъчыхи мюопюбкемхе б яксвюе ярнкймнбемхъ. 
+		*/
+		spline.Clear(); 
+		ChooseRandDirection();
+		return 1; // х сапюрэ щрнр йнд нрячдю
 	}
-	return 0;
+	else
+		return 0;
 }
 
-SimpleEnemy::SimpleEnemy() : GameObject("SimpleEnemy")
+SimpleEnemy::SimpleEnemy() : MovableTargets("SimpleEnemy")
 {
 	Scale(100.0f, 100.0f);
 	x = Random(1.0f, (float)WINDOW_WIDTH);
 	std::this_thread::sleep_for(std::chrono::seconds(1));
 	y = Random(1.0f, (float)WINDOW_HEIGHT);
+	spline.addKey(0.0f, FPoint(x, y));
 	ChooseRandDirection();
 }
 
@@ -53,7 +58,6 @@ inline float SimpleEnemy::Random(float min, float max)
 void SimpleEnemy::ChooseRandDirection()
 {
 	float point_x, point_y;
-	SplinePath<FPoint> spline;
 	
 	switch (Random(1, 4))
 	{
@@ -74,9 +78,10 @@ void SimpleEnemy::ChooseRandDirection()
 		point_y = 0;
 		break;
 	}
-	//_angle = (180 / math::PI) * -math::atan(point_y - y,
-	//	point_x - x);
-	//spline.addKey(FPoint(x, y));
+	_angle = (180 / math::PI) * -math::atan(point_y - y,
+		point_x - x);
+	spline.addKey(1.0f, FPoint(point_x, point_y));
+	spline.CalculateGradient();
 }
 
 void SimpleEnemy::DeathAnimation()

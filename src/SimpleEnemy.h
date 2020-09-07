@@ -1,12 +1,13 @@
 #pragma once
-#include "GameObject.h"
-class SimpleEnemy : public GameObject
+#include "MovableTargets.h"
+class SimpleEnemy : public MovableTargets
 {
 public:
 	SimpleEnemy();
 	bool CheckCollision(GameObject &other) override;
  
 	void ChooseRandDirection();
+	void Move();
 
 	void DeathAnimation() override;
 
