@@ -17,7 +17,7 @@ public:
 
 	void setTexture(std::string texture_name);
 	Render::Texture& getTexture();
-	virtual bool CheckCollision(GameObject &other);
+	virtual bool CheckCollision(GameObject *other);
 protected:
 	float x, y;
 	float width, height;

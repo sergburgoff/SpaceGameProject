@@ -10,7 +10,7 @@ enum { // ”¡–¿“‹!
 	WINDOW_HEIGHT = 768
 };
 
-SimpleEnemy::SimpleEnemy() : MovableTargets("SimpleEnemy")
+SimpleEnemy::SimpleEnemy() : MovableTarget("SimpleEnemy")
 {
 	Scale(100.0f, 100.0f);
 	x = Random(1.0f, (float)WINDOW_WIDTH);
@@ -42,6 +42,7 @@ ChooseRandDirection();*/
 void SimpleEnemy::onCollision()
 {
 	spline.Clear();
+	spline.addKey(0.0f, FPoint(x, y));
 	setDirection();
 }
 
@@ -78,7 +79,6 @@ void SimpleEnemy::Destroy()
 {
 	spline.Clear();
 	DeathAnimation();
-	~SimpleEnemy();
 }
 
 void SimpleEnemy::DeathAnimation()

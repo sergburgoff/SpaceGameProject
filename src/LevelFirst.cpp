@@ -50,14 +50,15 @@ void LevelFirst::Draw()
 	{
 		iterator->Move(_timer);
 		
-		for (auto &other = EnemiesCollection.begin() + 1; other == EnemiesCollection.end(); ++other)
+		for (auto &other = EnemiesCollection.begin() + 1; other != EnemiesCollection.end(); ++other)
 		{
 			if (iterator->CheckCollision(*other))
-				iterator->onCollision();
+			{
+			}//iterator->onCollision();
 		}
 		for (auto &bullet : BulletsCollection)
 		{
-			if (iterator->CheckCollision(*bullet))
+			if (iterator->CheckCollision(bullet))
 			{
 				iterator->Destroy();
 				bullet->Destroy();
@@ -112,7 +113,7 @@ bool LevelFirst::MouseDown(const IPoint &mouse_pos)
 {
 	if (Core::mainInput.GetMouseLeftButton())
 	{
-		Bullet * newBullet = new Bullet();
+		Bullet * newBullet = new Bullet((FPoint)mouse_pos);
 		BulletsCollection.push_back(newBullet);
 	}
 	return true;

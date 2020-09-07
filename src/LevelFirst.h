@@ -1,5 +1,7 @@
 #pragma once
 #include "GameObject.h"
+#include "MovableTarget.h"
+#include "Bullet.h"
 class LevelFirst : public GUI::Widget
 {
 public:

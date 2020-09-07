@@ -1,11 +1,15 @@
 #include "MovableTarget.h"
 #pragma once
-class Bullet : MovableTarget
+class Bullet : public MovableTarget
 {
 public:
-	Bullet();
+	Bullet(FPoint &mouse_pos);
+	void onCollision() override;
+	void Destroy() override;
+public:
+	const std::string type = "Bullet";
 protected:
-	void setDiraction() override;
+	void setDirection(FPoint &mouse_pos);
 	void DeathAnimation() override;
 };
 

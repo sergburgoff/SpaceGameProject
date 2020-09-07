@@ -1,9 +1,9 @@
 #include "GameObject.h"
 #pragma once
-class Cursor : GameObject
+class Cursor : public GameObject
 {
 public:
-	Cursor() : GameObject("CURSOR_AIM") {};
+	Cursor();
 	enum State 
 	{
 		PASSIVE,
@@ -12,11 +12,10 @@ public:
 		RELOAD
 	};
 	void ChangeState(State newState);
-	void DeathAnimation() override {}
 	void Draw() override;
 
 private:
-	float width = hight = 50.0f;
+	float width, height;
 	State currentState;
 };
 

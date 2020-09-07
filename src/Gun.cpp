@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Gun.h"
 
-Gun::Gun : GameObject("Gun") {}
+Gun::Gun() : GameObject("Gun") {}
 
 void Gun::Draw()
 {

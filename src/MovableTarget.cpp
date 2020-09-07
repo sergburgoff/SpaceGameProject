@@ -3,9 +3,9 @@
 #include "MovableTarget.h"
 
 
-FPoint MovableTarget::getCurrentPos()
+FPoint MovableTarget::getCurrentPos(float _timer)
 {
-	return spline.getGlobalFrame(math::clamp(0.0f, 1.0f, _time / 6.0f));
+	return spline.getGlobalFrame(math::clamp(0.0f, 1.0f, _timer / 6.0f));
 }
 
 void MovableTarget::Move(float _time)

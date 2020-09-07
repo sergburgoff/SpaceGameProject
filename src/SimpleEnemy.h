@@ -1,16 +1,18 @@
 #pragma once
 #include "MovableTarget.h"
-class SimpleEnemy : public MovableTargets
+class SimpleEnemy : public MovableTarget
 {
 public:
 	SimpleEnemy();
-	
-	void onCollision();
+
+	void onCollision() override;
 	void Destroy() override;
-	void DeathAnimation() override;
 protected:
-	void setDirection() override;
+	void setDirection();
 	int Random(int min, int max);
 	float Random(float min, float max);
+	void DeathAnimation() override;
+public:
+	const std::string type = "SimpleEnemie";
 };
 

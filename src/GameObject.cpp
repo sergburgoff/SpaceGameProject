@@ -35,7 +35,7 @@ void GameObject::Rotate(float _angle)
 void GameObject::Scale(float width, float hight)
 {
 	this->width = width;
-	this->hight = hight;
+	this->height = hight;
 }
 
 float GameObject::getX()
@@ -63,15 +63,15 @@ void GameObject::Draw()
 	Render::device.PushMatrix();
 	Render::device.PopMatrix();
 	_texture->Bind();
-	Render::DrawRect(x, y, width, hight);
+	Render::DrawRect(x, y, width, height);
 	
 	//_texture->Draw();
 }
 
-bool GameObject::CheckCollision(GameObject &other)
+bool GameObject::CheckCollision(GameObject *other)
 {
-	return (this->x < other.getX() + other.getWidth() &&
-		this->x + this->width > other.getX() &&
-		this->y < other.getY() + other.getHeight &&
-		this->y + this->height > other.getY());
+	return (x < other->getX() + other->getWidth() &&
+		x + width > other->getX() &&
+		y < other->getY() + other->getHeight() &&
+		y + height > other->getY());
 }
