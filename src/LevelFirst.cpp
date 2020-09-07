@@ -42,13 +42,14 @@ void LevelFirst::Draw()
 	
 	for (auto &bullet : BulletsCollection)
 	{
-		bullet->Move(_timer);
+		bullet->Move();
 		bullet->Draw();
 	}
 
 	for (auto &iterator : EnemiesCollection)
 	{
-		iterator->Move(_timer);
+		iterator->Move();
+		iterator->Draw();
 		
 		for (auto &other = EnemiesCollection.begin() + 1; other != EnemiesCollection.end(); ++other)
 		{
@@ -67,8 +68,6 @@ void LevelFirst::Draw()
 				continue;
 			}
 		}
-
-		iterator->Draw();
 	}
 
 	Cursor myCursor;

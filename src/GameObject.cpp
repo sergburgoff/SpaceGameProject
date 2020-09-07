@@ -64,8 +64,6 @@ void GameObject::Draw()
 	Render::device.PopMatrix();
 	_texture->Bind();
 	Render::DrawRect(x, y, width, height);
-	
-	//_texture->Draw();
 }
 
 bool GameObject::CheckCollision(GameObject *other)
