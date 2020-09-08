@@ -1,16 +1,22 @@
 #include "stdafx.h"
 #include "Bullet.h"
 
-Bullet::Bullet(FPoint &mouse_pos) : MovableTarget("Bullet"),
-	speed(10.0f)
+Bullet::Bullet() : MovableTarget("Bullet")
 {
-	//spline.addKey(0.0f, FPoint());
-	setDirection(mouse_pos);
+	speed = 1.0f;
+	Scale(50.0f, 50.0f);
+	x = 436.0f;
+	y = 200.0f; // 100
+	setDirection();
 }
 
-void Bullet::setDirection(FPoint &mouse_pos)
+void Bullet::setDirection()
 {
-
+	FPoint mouse_pos = Core::mainInput.GetMousePos();
+	float rel_x = mouse_pos.x - x;
+	float rel_y = mouse_pos.y - y;
+	_angle = (180 / math::PI) * -math::atan(rel_y, rel_x);
+	_angle = -_angle;
 }
 
 void Bullet::onCollision()

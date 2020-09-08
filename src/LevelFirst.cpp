@@ -14,9 +14,9 @@ LevelFirst::LevelFirst(const std::string& name, rapidxml::xml_node<>* elem)
 	: Widget(name)
 	, _curTex(0)
 	, _timer(0)
-	, _angle(0)
 	, _eff(NULL)
 	, _scale(0.f)
+	, EnemiesCount(10)
 {
 	Init();
 }
@@ -42,30 +42,35 @@ void LevelFirst::Draw()
 	
 	for (auto &bullet : BulletsCollection)
 	{
-		bullet->Move();
 		bullet->Draw();
+		bullet->Move(); // оепедбхмсрэ
 	}
 
+	size_t i = 0;
 	for (auto &iterator : EnemiesCollection)
 	{
-		iterator->Move();
+		++i;
 		iterator->Draw();
+		iterator->Move();
 		
-		for (auto &other = EnemiesCollection.begin() + 1; other != EnemiesCollection.end(); ++other)
+		for (auto other = EnemiesCollection.begin() + i; other != EnemiesCollection.end(); ++other)
 		{
-			if (iterator->CheckCollision(*other))
+			if (GameObject::CheckCollision(iterator, *other))
 			{
-			}//iterator->onCollision();
+				iterator->onCollision();
+			}
 		}
 		for (auto &bullet : BulletsCollection)
 		{
-			if (iterator->CheckCollision(bullet))
+			if (iterator->CheckCollision(iterator, bullet))
 			{
-				iterator->Destroy();
+				/*iterator->Destroy();
 				bullet->Destroy();
-				// сдюкемхе бпюцю
-				//сдюкемхе оскх
-				continue;
+				delete iterator;
+				delete bullet;
+				//EnemiesCollection.erase(*iterator);
+				//BulletsCollection.erase(*bullet);
+				continue;*/
 			}
 		}
 	}
@@ -112,7 +117,7 @@ bool LevelFirst::MouseDown(const IPoint &mouse_pos)
 {
 	if (Core::mainInput.GetMouseLeftButton())
 	{
-		Bullet * newBullet = new Bullet((FPoint)mouse_pos);
+		Bullet * newBullet = new Bullet();
 		BulletsCollection.push_back(newBullet);
 	}
 	return true;

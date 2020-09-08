@@ -1,12 +1,14 @@
 #include "stdafx.h"
 #include "GameObject.h"
 
+#define SIZE_COEF 0.5f
+
 GameObject::GameObject(std::string texture_name) 
-	: x(0),
-	y(0),
-	width(0),
-	height(0),
-	_angle(0)
+	: x(0)
+	, y(0)
+	, width(0)
+	, height(0)
+	, _angle(0)
 {
 	_texture = Core::resourceManager.Get<Render::Texture>(texture_name);
 }
@@ -61,15 +63,15 @@ float GameObject::getHeight()
 void GameObject::Draw()
 {
 	Render::device.PushMatrix();
-	Render::device.PopMatrix();
 	_texture->Bind();
 	Render::DrawRect(x, y, width, height);
+	Render::device.PopMatrix();
 }
 
-bool GameObject::CheckCollision(GameObject *other)
+bool GameObject::CheckCollision(GameObject *first, GameObject *second)
 {
-	return (x < other->getX() + other->getWidth() &&
-		x + width > other->getX() &&
-		y < other->getY() + other->getHeight() &&
-		y + height > other->getY());
+	return (first->getX() < second->getX() + second->getWidth() - SIZE_COEF &&
+		first->getX() + first->getWidth() - SIZE_COEF > second->getX() &&
+		first->getY() < second->getY() + second->getHeight() - SIZE_COEF &&
+		first->getY() + first->getHeight() - SIZE_COEF > second->getY());
 }

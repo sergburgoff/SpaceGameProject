@@ -3,15 +3,13 @@
 class Bullet : public MovableTarget
 {
 public:
-	Bullet(FPoint &mouse_pos);
+	Bullet();
 	void onCollision() override;
 	void Destroy() override;
 protected:
-	void setDirection(FPoint &mouse_pos);
+	void setDirection() override;
 	void DeathAnimation() override;
 public:
 	const std::string type = "Bullet";
-protected:
-	float speed;
 };
 

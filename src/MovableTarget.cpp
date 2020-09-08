@@ -4,6 +4,8 @@
 
 void MovableTarget::Move()
 {
-	y = y + speed;
-	x = y * math::tan(_angle);
+	float temp = math::sin(_angle);
+	float temp1 = math::cos(_angle);
+	y = y + speed * math::sin(_angle);
+	x = x + speed * math::cos(_angle);
 }

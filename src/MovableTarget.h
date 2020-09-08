@@ -9,7 +9,7 @@ public:
 	virtual void Destroy() = 0;
 protected:
 	virtual void DeathAnimation() = 0;
-	void setDirection() {}
+	virtual void setDirection() {}
 public:
 	const std::string type;
 protected:

@@ -8,7 +8,7 @@ public:
 	void onCollision() override;
 	void Destroy() override;
 protected:
-	void setDirection();
+	void setDirection() override;
 	int Random(int min, int max);
 	float Random(float min, float max);
 	void DeathAnimation() override;

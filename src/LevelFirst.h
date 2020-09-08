@@ -25,7 +25,6 @@ private:
 	float _timer;
 
 	float _scale;
-	float _angle;
 
 	int _curTex;
 
@@ -34,9 +33,9 @@ private:
 
 	TimedSpline<FPoint> spline;
 
-	size_t EnemiesCount = 10;
+	size_t EnemiesCount;
 	std::vector<MovableTarget*> EnemiesCollection;
 	std::vector<Bullet*> BulletsCollection;
-	
+
 };
 

@@ -39,7 +39,12 @@ inline float SimpleEnemy::Random(float min, float max)
 
 void SimpleEnemy::onCollision()
 {
-	setDirection();
+	if (_angle + 180.0f > 360.0f)
+	{
+		_angle += 180.0f - (360.0f - _angle);
+	}
+	else
+		_angle += 180.0f;
 }
 
 void SimpleEnemy::setDirection()
