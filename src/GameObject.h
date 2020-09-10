@@ -5,7 +5,7 @@ public:
 	GameObject(std::string texture_name);
 
 	virtual void Draw();
-	static bool CheckCollision(GameObject *first,
+	static bool CheckObjectCollision(GameObject *first,
 		GameObject *second);
 
 	void setPosition(float x, float y);

@@ -6,14 +6,25 @@
 #include "SimpleEnemy.h"
 
 enum { // ÓÁÐÀÒÜ!
-	WINDOW_WIDTH = 1024,
-	WINDOW_HEIGHT = 768
+	WINDOW_WIDTH = 1000,
+	WINDOW_HEIGHT = 760
+};
+
+#define SIZE_COEF 15.f
+
+enum { // ÓÁÐÀÒÜ!
+	BOTTOM_BORDER = 60,
+	TOP_BORDER = 755,
+	RIGHT_BORDER = 1000,
+	LEFT_BORDER = -10
 };
 
 SimpleEnemy::SimpleEnemy() : MovableTarget("SimpleEnemy")
 {
-	speed = 1.0f;
-	Scale(100.0f, 100.0f);
+	collisionObj_shield = 0;
+	collisionWall_shield = 0;
+	speed = 5.0f;
+	Scale(70.0f, 70.0f);
 	x = Random(1.0f, (float)WINDOW_WIDTH);
 	std::this_thread::sleep_for(std::chrono::seconds(1));
 	y = Random(1.0f, (float)WINDOW_HEIGHT);
@@ -37,11 +48,25 @@ inline float SimpleEnemy::Random(float min, float max)
 	return dis(gen);
 }
 
+void SimpleEnemy::Move()
+{
+	float y_pos = y + speed * math::sin(_angle * (math::PI / 180));
+	float x_pos = x + speed * math::cos(_angle * (math::PI / 180));
+	if (y_pos > BOTTOM_BORDER - SIZE_COEF &&
+		y_pos + height < TOP_BORDER + SIZE_COEF &&
+		x_pos + width < RIGHT_BORDER + SIZE_COEF &&
+		x_pos > LEFT_BORDER - SIZE_COEF)
+	{
+		y = y_pos;
+		x = x_pos;
+	}
+}
+
 void SimpleEnemy::onCollision()
 {
-	if (_angle + 180.0f > 360.0f)
+	if (_angle  > 180.0f)
 	{
-		_angle += 180.0f - (360.0f - _angle);
+		_angle = _angle - 180.0f;
 	}
 	else
 		_angle += 180.0f;
@@ -49,30 +74,6 @@ void SimpleEnemy::onCollision()
 
 void SimpleEnemy::setDirection()
 {
-	/*float point_x, point_y;
-	
-	switch (Random(1, 4))
-	{
-	case 1:
-		point_x = 0;
-		point_y = Random(1.0f, (float)WINDOW_HEIGHT);
-		break;
-	case 2:
-		point_x = Random(1.0f, (float)WINDOW_WIDTH);
-		point_y = (float)WINDOW_HEIGHT;
-		break;
-	case 3:
-		point_x = (float)WINDOW_WIDTH;
-		point_y = Random(1.0f, (float)WINDOW_HEIGHT);
-		break;
-	case 4:
-		point_x = Random(1.0f, (float)WINDOW_WIDTH);
-		point_y = 0;
-		break;
-	}
-	_angle = (180 / math::PI) * -math::atan(point_y - y,
-		point_x - x);*/
-
 	_angle = Random(0.0f, 360.0f);
 }
 

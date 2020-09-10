@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "GameObject.h"
 
-#define SIZE_COEF 0.5f
+#define SIZE_COEF 15.f
 
 GameObject::GameObject(std::string texture_name) 
 	: x(0)
@@ -68,7 +68,7 @@ void GameObject::Draw()
 	Render::device.PopMatrix();
 }
 
-bool GameObject::CheckCollision(GameObject *first, GameObject *second)
+bool GameObject::CheckObjectCollision(GameObject *first, GameObject *second)
 {
 	return (first->getX() < second->getX() + second->getWidth() - SIZE_COEF &&
 		first->getX() + first->getWidth() - SIZE_COEF > second->getX() &&

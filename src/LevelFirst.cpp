@@ -17,12 +17,14 @@ LevelFirst::LevelFirst(const std::string& name, rapidxml::xml_node<>* elem)
 	, _eff(NULL)
 	, _scale(0.f)
 	, EnemiesCount(10)
+	, _gameTimer(0)
 {
 	Init();
 }
 
 void LevelFirst::Init()
 {
+	_gameTimer = 100;
 	
 	ShowCursor(false);
 
@@ -35,42 +37,63 @@ void LevelFirst::Init()
 
 void LevelFirst::Draw()
 {
+	for (size_t cur_bullet = 0; cur_bullet < BulletsCollection.size(); ++cur_bullet)
+	{
+		BulletsCollection[cur_bullet]->Move();
+		BulletsCollection[cur_bullet]->Draw();
+		if (BulletsCollection[cur_bullet]->CheckWallCollision())
+		{
+			std::vector<Bullet*>::iterator bullet = BulletsCollection.begin() + cur_bullet;
+			BulletsCollection[cur_bullet]->Destroy();
+
+			delete BulletsCollection[cur_bullet];
+
+			BulletsCollection.erase(bullet);
+		}
+	}
+
 	Gun myGun;
 	myGun.setPosition(436.0f, 100.0f);
 	myGun.Scale(500.0f, 500.0f);
 	myGun.Draw();	
-	
-	for (auto &bullet : BulletsCollection)
-	{
-		bullet->Draw();
-		bullet->Move(); // оепедбхмсрэ
-	}
 
-	size_t i = 0;
-	for (auto &iterator : EnemiesCollection)
+	for(size_t cur_enemy = 0; cur_enemy < EnemiesCollection.size(); ++cur_enemy)
 	{
-		++i;
-		iterator->Draw();
-		iterator->Move();
-		
-		for (auto other = EnemiesCollection.begin() + i; other != EnemiesCollection.end(); ++other)
+		EnemiesCollection[cur_enemy]->Draw();
+		EnemiesCollection[cur_enemy]->Move();
+
+		EnemiesCollection[cur_enemy]->decreaseShield();
+
+		if (EnemiesCollection[cur_enemy]->CheckWallCollision() && !EnemiesCollection[cur_enemy]->isWallShieldOn())
 		{
-			if (GameObject::CheckCollision(iterator, *other))
+			EnemiesCollection[cur_enemy]->onCollision();
+			EnemiesCollection[cur_enemy]->chargeWallShield();
+		}
+		
+		for (other_enemy = EnemiesCollection.begin() + cur_enemy + 1; other_enemy != EnemiesCollection.end(); ++other_enemy)
+		{
+			if (GameObject::CheckObjectCollision(EnemiesCollection[cur_enemy], *other_enemy) && !EnemiesCollection[cur_enemy]->isObjectShieldOn())
 			{
-				iterator->onCollision();
+				EnemiesCollection[cur_enemy]->onCollision();
+				EnemiesCollection[cur_enemy]->chargeObjectShield();
 			}
 		}
-		for (auto &bullet : BulletsCollection)
+		for (size_t cur_bullet = 0; cur_bullet < BulletsCollection.size(); ++cur_bullet)
 		{
-			if (iterator->CheckCollision(iterator, bullet))
+			if (GameObject::CheckObjectCollision(EnemiesCollection[cur_enemy], BulletsCollection[cur_bullet]))
 			{
-				/*iterator->Destroy();
-				bullet->Destroy();
-				delete iterator;
-				delete bullet;
-				//EnemiesCollection.erase(*iterator);
-				//BulletsCollection.erase(*bullet);
-				continue;*/
+				std::vector<SimpleEnemy*>::iterator enemy = EnemiesCollection.begin() + cur_enemy;
+				std::vector<Bullet*>::iterator bullet = BulletsCollection.begin() + cur_bullet;
+				EnemiesCollection[cur_enemy]->Destroy();
+				BulletsCollection[cur_bullet]->Destroy();
+
+				delete EnemiesCollection[cur_enemy];
+				delete BulletsCollection[cur_bullet];
+
+				EnemiesCollection.erase(enemy);
+				BulletsCollection.erase(bullet);
+				--EnemiesCount;
+				break;
 			}
 		}
 	}
@@ -100,11 +123,14 @@ void LevelFirst::Draw()
 
 	Render::BindFont("arial");
 	Render::PrintString(924 + 100 / 2, 35, utils::lexical_cast(mouse_pos.x) + ", " + utils::lexical_cast(mouse_pos.y), 1.f, CenterAlign);
+	Render::PrintString(800.0f, 750.0f, "Time left: " + utils::lexical_cast(_gameTimer), 3.f, CenterAlign);
 
 }
 
 void LevelFirst::Update(float dt)
 {
+	_gameTimer -= dt;
+
 	_timer += dt *2;
 
 	while (_timer > 2 * math::PI)

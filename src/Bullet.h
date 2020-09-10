@@ -9,7 +9,5 @@ public:
 protected:
 	void setDirection() override;
 	void DeathAnimation() override;
-public:
-	const std::string type = "Bullet";
 };
 

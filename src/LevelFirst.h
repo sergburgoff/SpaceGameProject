@@ -1,6 +1,6 @@
 #pragma once
 #include "GameObject.h"
-#include "MovableTarget.h"
+#include "SimpleEnemy.h"
 #include "Bullet.h"
 class LevelFirst : public GUI::Widget
 {
@@ -28,14 +28,18 @@ private:
 
 	int _curTex;
 
+	size_t _gameTimer;
+
 	EffectsContainer _effCont;
 	ParticleEffectPtr _eff;
 
 	TimedSpline<FPoint> spline;
 
 	size_t EnemiesCount;
-	std::vector<MovableTarget*> EnemiesCollection;
+	std::vector<SimpleEnemy*> EnemiesCollection;
 	std::vector<Bullet*> BulletsCollection;
+
+	std::vector<SimpleEnemy*>::iterator other_enemy;
 
 };
 
