@@ -4,20 +4,7 @@
 #include <chrono>
 #include <thread>
 #include "SimpleEnemy.h"
-
-enum { // ÓÁÐÀÒÜ!
-	WINDOW_WIDTH = 1000,
-	WINDOW_HEIGHT = 760
-};
-
-#define SIZE_COEF 15.f
-
-enum { // ÓÁÐÀÒÜ!
-	BOTTOM_BORDER = 60,
-	TOP_BORDER = 755,
-	RIGHT_BORDER = 1000,
-	LEFT_BORDER = -10
-};
+#include "Settings.h"
 
 SimpleEnemy::SimpleEnemy() : MovableTarget("SimpleEnemy")
 {
@@ -25,9 +12,9 @@ SimpleEnemy::SimpleEnemy() : MovableTarget("SimpleEnemy")
 	collisionWall_shield = 0;
 	speed = 5.0f;
 	Scale(70.0f, 70.0f);
-	x = Random(1.0f, (float)WINDOW_WIDTH);
+	x = Random((float)Settings::LEFT_BORDER, (float)Settings::RIGHT_BORDER);
 	std::this_thread::sleep_for(std::chrono::seconds(1));
-	y = Random(1.0f, (float)WINDOW_HEIGHT);
+	y = Random((float)Settings::BOTTOM_BORDER, (float)Settings::TOP_BORDER);
 	std::this_thread::sleep_for(std::chrono::seconds(1));
 	setDirection();
 }
@@ -52,10 +39,10 @@ void SimpleEnemy::Move()
 {
 	float y_pos = y + speed * math::sin(_angle * (math::PI / 180));
 	float x_pos = x + speed * math::cos(_angle * (math::PI / 180));
-	if (y_pos > BOTTOM_BORDER - SIZE_COEF &&
-		y_pos + height < TOP_BORDER + SIZE_COEF &&
-		x_pos + width < RIGHT_BORDER + SIZE_COEF &&
-		x_pos > LEFT_BORDER - SIZE_COEF)
+	if (y_pos > Settings::BOTTOM_BORDER - SIZE_COEF &&
+		y_pos + height < Settings::TOP_BORDER + SIZE_COEF &&
+		x_pos + width < Settings::RIGHT_BORDER + SIZE_COEF &&
+		x_pos > Settings::LEFT_BORDER - SIZE_COEF)
 	{
 		y = y_pos;
 		x = x_pos;

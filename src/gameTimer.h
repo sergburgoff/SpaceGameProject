@@ -5,9 +5,9 @@
 class gameTimer
 {
 public:
-	gameTimer(size_t _time);
+	gameTimer();
 
-	void addTime();
+	void addSeconds(size_t _time);
 	void Tick();
 	size_t getCurrTime();
 private:

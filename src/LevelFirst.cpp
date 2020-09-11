@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include <stdlib>
 #include <vector>
 #include "GameObject.h"
 #include "Gun.h"
@@ -9,27 +10,28 @@
 #include "LevelFirst.h"
 #include "gameTimer.h"
 
-gameTimer myTimer(100);
-
 LevelFirst::LevelFirst(const std::string& name, rapidxml::xml_node<>* elem)
 	: Widget(name)
 	, _curTex(0)
 	, _timer(0)
 	, _eff(NULL)
 	, _scale(0.f)
-	, EnemiesCount(10)
-	, _gameTimer(0)
 {
 	Init();
 }
 
 void LevelFirst::Init()
 {
-	_gameTimer = 100;
+	myTimer.addSeconds(60);
+
+	enemiesCount = 10;
 	
+	myGun.setPosition(436.0f, 100.0f);
+	myGun.Scale(500.0f, 500.0f);
+
 	ShowCursor(false);
 
-	for (size_t i = 0; i < EnemiesCount; ++i)
+	for (size_t i = 0; i < enemiesCount; ++i)
 	{
 		SimpleEnemy * newEnemy = new SimpleEnemy();
 		EnemiesCollection.push_back(newEnemy);
@@ -53,9 +55,6 @@ void LevelFirst::Draw()
 		}
 	}
 
-	Gun myGun;
-	myGun.setPosition(436.0f, 100.0f);
-	myGun.Scale(500.0f, 500.0f);
 	myGun.Draw();	
 
 	for(size_t cur_enemy = 0; cur_enemy < EnemiesCollection.size(); ++cur_enemy)
@@ -71,9 +70,11 @@ void LevelFirst::Draw()
 			EnemiesCollection[cur_enemy]->chargeWallShield();
 		}
 		
-		for (other_enemy = EnemiesCollection.begin() + cur_enemy + 1; other_enemy != EnemiesCollection.end(); ++other_enemy)
+		for (other_enemy = EnemiesCollection.begin() + cur_enemy + 1; 
+			other_enemy != EnemiesCollection.end(); ++other_enemy)
 		{
-			if (GameObject::CheckObjectCollision(EnemiesCollection[cur_enemy], *other_enemy) && !EnemiesCollection[cur_enemy]->isObjectShieldOn())
+			if (GameObject::CheckObjectCollision(EnemiesCollection[cur_enemy], *other_enemy) && 
+				!EnemiesCollection[cur_enemy]->isObjectShieldOn())
 			{
 				EnemiesCollection[cur_enemy]->onCollision();
 				EnemiesCollection[cur_enemy]->chargeObjectShield();
@@ -93,13 +94,12 @@ void LevelFirst::Draw()
 
 				EnemiesCollection.erase(enemy);
 				BulletsCollection.erase(bullet);
-				--EnemiesCount;
+				--enemiesCount;
 				break;
 			}
 		}
 	}
 
-	Cursor myCursor;
 	myCursor.Draw();
 
 	Render::device.SetTexturing(false);
@@ -129,7 +129,6 @@ void LevelFirst::Draw()
 
 void LevelFirst::Update(float dt)
 {
-	_gameTimer -= dt;
 
 	_timer += dt *2;
 
@@ -139,6 +138,16 @@ void LevelFirst::Update(float dt)
 	}
 
 	myTimer.Tick();
+
+	if (myTimer.getCurrTime() == 0)
+	{
+		PrintString(500.0f, 500.0f, "YOU LOSE", 3.f, CenterAlign);
+	}
+
+	if (enemiesCount == 0)
+	{
+		PrintString(500.0f, 500.0f, "YOU WIN", 3.f, CenterAlign);
+	}
 }
 
 bool LevelFirst::MouseDown(const IPoint &mouse_pos)
@@ -168,10 +177,13 @@ void LevelFirst::AcceptMessage(const Message& message)
 
 void LevelFirst::KeyPressed(int keyCode)
 {
-	
+
 }
 
 void LevelFirst::CharPressed(int unicodeChar)
 {
-	
+	if (unicodeChar == L'ESC')
+	{
+		exit(0);
+	}
 }

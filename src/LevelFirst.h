@@ -24,18 +24,15 @@ private:
 private:
 	float _timer;
 
-	float _scale;
-
-	int _curTex;
-
-	size_t _gameTimer;
-
 	EffectsContainer _effCont;
 	ParticleEffectPtr _eff;
 
-	TimedSpline<FPoint> spline;
+	size_t enemiesCount;
 
-	size_t EnemiesCount;
+	gameTimer myTimer;
+	Gun myGun;
+	Cursor myCursor;
+
 	std::vector<SimpleEnemy*> EnemiesCollection;
 	std::vector<Bullet*> BulletsCollection;
 

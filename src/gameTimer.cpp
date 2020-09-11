@@ -1,7 +1,8 @@
 #include "stdafx.h"
 #include "gameTimer.h"
 
-gameTimer::gameTimer(size_t _time)
+gameTimer::gameTimer() 
+	: end(0)
 {
 	end = std::chrono::seconds(_time);
 }
@@ -17,6 +18,11 @@ void gameTimer::Tick()
 			last_iteration = std::chrono::high_resolution_clock::now();
 		}
 	}
+}
+
+void gameTimer::addSeconds(size_t _time)
+{
+	end = std::chrono::seconds(_time);
 }
 
 size_t gameTimer::getCurrTime()

@@ -1,15 +1,9 @@
 #include "stdafx.h"
 #include "GameObject.h"
 #include "MovableTarget.h"
+#include "Settings.h"
 
-#define SIZE_COEF 15.f
 
-enum { // ÓÁÐÀÒÜ!
-	BOTTOM_BORDER = 60,
-	TOP_BORDER = 755,
-	RIGHT_BORDER = 1000,
-	LEFT_BORDER = -10
-};
 
 void MovableTarget::Move()
 {
@@ -20,8 +14,8 @@ void MovableTarget::Move()
 bool MovableTarget::CheckWallCollision()
 {
 	return x + width > RIGHT_BORDER ||
-		y + height > TOP_BORDER ||
-		y < BOTTOM_BORDER || x < LEFT_BORDER;
+		y + height > Settings::TOP_BORDER ||
+		y < Settings::BOTTOM_BORDER || x < Settings::LEFT_BORDER;
 }
 
 void MovableTarget::chargeObjectShield()

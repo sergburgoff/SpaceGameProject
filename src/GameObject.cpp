@@ -63,6 +63,8 @@ float GameObject::getHeight()
 void GameObject::Draw()
 {
 	Render::device.PushMatrix();
+	Render::device.MatrixTranslate(x - width / 2, y - height / 2, 0); // ???
+	Render::device.MatrixRotate(math::Vector3(0, 0, 1), _angle - 90);
 	_texture->Bind();
 	Render::DrawRect(x, y, width, height);
 	Render::device.PopMatrix();
