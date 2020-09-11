@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include <stdlib>
+#include <stdlib.h>
 #include <vector>
 #include "GameObject.h"
 #include "Gun.h"
@@ -10,12 +10,17 @@
 #include "LevelFirst.h"
 #include "gameTimer.h"
 
+/*
+	- ƒобавить установку WINDOW_WIDTH, WINDOW_HEIGTH;
+	- ѕроверка победы и проигрыша не работают.
+	- ESC не работает.
+*/
+
+
 LevelFirst::LevelFirst(const std::string& name, rapidxml::xml_node<>* elem)
 	: Widget(name)
-	, _curTex(0)
 	, _timer(0)
 	, _eff(NULL)
-	, _scale(0.f)
 {
 	Init();
 }
@@ -141,12 +146,12 @@ void LevelFirst::Update(float dt)
 
 	if (myTimer.getCurrTime() == 0)
 	{
-		PrintString(500.0f, 500.0f, "YOU LOSE", 3.f, CenterAlign);
+		Render::PrintString(500.0f, 500.0f, "YOU LOSE", 3.f, CenterAlign);
 	}
 
 	if (enemiesCount == 0)
 	{
-		PrintString(500.0f, 500.0f, "YOU WIN", 3.f, CenterAlign);
+		Render::PrintString(500.0f, 500.0f, "YOU WIN", 3.f, CenterAlign);
 	}
 }
 

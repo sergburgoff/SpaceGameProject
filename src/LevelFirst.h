@@ -2,6 +2,10 @@
 #include "GameObject.h"
 #include "SimpleEnemy.h"
 #include "Bullet.h"
+#include "gameTimer.h"
+#include "Gun.h"
+#include "Cursor.h"
+
 class LevelFirst : public GUI::Widget
 {
 public:

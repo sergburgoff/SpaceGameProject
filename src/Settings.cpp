@@ -1,10 +1,17 @@
 #include "stdafx.h"
 #include "Settings.h"
 
+int Settings::WINDOW_WIDTH;
+int Settings::WINDOW_HEIGHT;
+int Settings::BOTTOM_BORDER;
+int Settings::TOP_BORDER;
+int Settings::RIGHT_BORDER;
+int Settings::LEFT_BORDER;
+
 void Settings::setBorders()
 {
-	BOTTOM_BORDER = 20;
-	TOP_BORDER = WINDOW_HEIGHT - 10;
-	LEFT_BORDER = 20;
-	RIGHT_BORDER = WINDOW_WIDTH - 10;
+	Settings::BOTTOM_BORDER = 20;
+	Settings::TOP_BORDER = Settings::WINDOW_HEIGHT - 10;
+	Settings::LEFT_BORDER = 20;
+	Settings::RIGHT_BORDER = Settings::WINDOW_WIDTH - 10;
 }

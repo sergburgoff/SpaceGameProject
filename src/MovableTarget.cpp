@@ -13,7 +13,7 @@ void MovableTarget::Move()
 
 bool MovableTarget::CheckWallCollision()
 {
-	return x + width > RIGHT_BORDER ||
+	return x + width > Settings::RIGHT_BORDER ||
 		y + height > Settings::TOP_BORDER ||
 		y < Settings::BOTTOM_BORDER || x < Settings::LEFT_BORDER;
 }

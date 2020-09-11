@@ -1,11 +1,9 @@
 #include "stdafx.h"
 #include "gameTimer.h"
 
-gameTimer::gameTimer() 
+gameTimer::gameTimer()
 	: end(0)
-{
-	end = std::chrono::seconds(_time);
-}
+{}
 
 void gameTimer::Tick()
 {
