@@ -7,8 +7,9 @@
 #include "MovableTarget.h"
 #include "Bullet.h"
 #include "LevelFirst.h"
+#include "gameTimer.h"
 
-
+gameTimer myTimer(100);
 
 LevelFirst::LevelFirst(const std::string& name, rapidxml::xml_node<>* elem)
 	: Widget(name)
@@ -123,8 +124,7 @@ void LevelFirst::Draw()
 
 	Render::BindFont("arial");
 	Render::PrintString(924 + 100 / 2, 35, utils::lexical_cast(mouse_pos.x) + ", " + utils::lexical_cast(mouse_pos.y), 1.f, CenterAlign);
-	Render::PrintString(800.0f, 750.0f, "Time left: " + utils::lexical_cast(_gameTimer), 3.f, CenterAlign);
-
+	Render::PrintString(800.0f, 750.0f, "Time left: " + utils::lexical_cast(myTimer.getCurrTime()), 3.f, CenterAlign);
 }
 
 void LevelFirst::Update(float dt)
@@ -137,6 +137,8 @@ void LevelFirst::Update(float dt)
 	{
 		_timer -= 2 * math::PI;
 	}
+
+	myTimer.Tick();
 }
 
 bool LevelFirst::MouseDown(const IPoint &mouse_pos)
