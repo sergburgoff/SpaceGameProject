@@ -12,9 +12,9 @@ SimpleEnemy::SimpleEnemy() : MovableTarget("SimpleEnemy")
 	collisionWall_shield = 0;
 	speed = 5.0f;
 	Scale(70.0f, 70.0f);
-	x = Random((float)Settings::LEFT_BORDER, (float)Settings::RIGHT_BORDER);
+	x = Random((float)Settings::LEFT_BORDER, (float)Settings::RIGHT_BORDER - width);
 	std::this_thread::sleep_for(std::chrono::seconds(1));
-	y = Random((float)Settings::BOTTOM_BORDER, (float)Settings::TOP_BORDER);
+	y = Random((float)Settings::BOTTOM_BORDER, (float)Settings::TOP_BORDER - height);
 	std::this_thread::sleep_for(std::chrono::seconds(1));
 	setDirection();
 }

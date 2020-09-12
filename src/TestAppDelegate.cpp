@@ -2,6 +2,7 @@
 #include "TestAppDelegate.h"
 #include "LevelFirst.h"
 #include "TestWidget.h"
+#include "Settings.h"
 
 enum {
 	WINDOW_WIDTH = 1024,
@@ -24,6 +25,10 @@ void TestAppDelegate::GameContentSize(int deviceWidth, int deviceHeight, int &wi
 	height = WINDOW_HEIGHT;
 	//width = deviceWidth;
 	//height = deviceHeight;
+
+	Settings::WINDOW_WIDTH = width;
+	Settings::WINDOW_HEIGHT = height;
+	Settings::setBorders();
 }
 
 void TestAppDelegate::ScreenMode(DeviceMode &mode)

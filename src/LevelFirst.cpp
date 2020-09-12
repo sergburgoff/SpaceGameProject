@@ -130,6 +130,7 @@ void LevelFirst::Draw()
 	Render::BindFont("arial");
 	Render::PrintString(924 + 100 / 2, 35, utils::lexical_cast(mouse_pos.x) + ", " + utils::lexical_cast(mouse_pos.y), 1.f, CenterAlign);
 	Render::PrintString(800.0f, 750.0f, "Time left: " + utils::lexical_cast(myTimer.getCurrTime()), 3.f, CenterAlign);
+
 }
 
 void LevelFirst::Update(float dt)
@@ -146,12 +147,10 @@ void LevelFirst::Update(float dt)
 
 	if (myTimer.getCurrTime() == 0)
 	{
-		Render::PrintString(500.0f, 500.0f, "YOU LOSE", 3.f, CenterAlign);
 	}
 
 	if (enemiesCount == 0)
 	{
-		Render::PrintString(500.0f, 500.0f, "YOU WIN", 3.f, CenterAlign);
 	}
 }
 
@@ -187,8 +186,8 @@ void LevelFirst::KeyPressed(int keyCode)
 
 void LevelFirst::CharPressed(int unicodeChar)
 {
-	if (unicodeChar == L'ESC')
+	if (unicodeChar == 27)
 	{
-		exit(0);
+		// Выход из игры
 	}
 }
