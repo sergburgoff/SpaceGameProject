@@ -6,6 +6,9 @@ class Settings
 {
 public:
 	static void setBorders();
+
+	static void Serialisation();
+	static void Deserialisation();
 public:
 	static int WINDOW_WIDTH;
 	static int WINDOW_HEIGHT;

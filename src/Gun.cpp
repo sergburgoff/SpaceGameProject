@@ -27,3 +27,20 @@ void Gun::Draw()
 	Render::DrawQuad(rect,uv);
 	Render::device.PopMatrix();
 }
+
+bool Gun::isReadyToFire()
+{
+	return _reload == 0;
+}
+
+void Gun::Reloading()
+{
+	if (_reload != 0)
+		--_reload;
+}
+
+void Gun::beginReload()
+{
+	if (_reload == 0)
+		_reload = RELOADING_TIME;
+}

@@ -1,5 +1,12 @@
 <?xml version="1.0"?> 
 <GUI>
+  <Layer name="StartMenu">
+    <Controls>
+      <Button name="Start">
+        <position x="500" y ="500"/>
+      </Button>
+    </Controls>
+  </Layer>
   <Layer name="GameLayer">
     <Controls>
       <LevelFirst name="LevelFirst"/>

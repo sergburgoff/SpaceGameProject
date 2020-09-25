@@ -28,6 +28,9 @@ private:
 private:
 	float _timer;
 
+	bool isWin = false;
+	bool isLose = false;
+
 	EffectsContainer _effCont;
 	ParticleEffectPtr _eff;
 

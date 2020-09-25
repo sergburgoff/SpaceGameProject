@@ -10,13 +10,6 @@
 #include "LevelFirst.h"
 #include "gameTimer.h"
 
-/*
-	- Добавить установку WINDOW_WIDTH, WINDOW_HEIGTH;
-	- Проверка победы и проигрыша не работают.
-	- ESC не работает.
-*/
-
-
 LevelFirst::LevelFirst(const std::string& name, rapidxml::xml_node<>* elem)
 	: Widget(name)
 	, _timer(0)
@@ -131,6 +124,17 @@ void LevelFirst::Draw()
 	Render::PrintString(924 + 100 / 2, 35, utils::lexical_cast(mouse_pos.x) + ", " + utils::lexical_cast(mouse_pos.y), 1.f, CenterAlign);
 	Render::PrintString(800.0f, 750.0f, "Time left: " + utils::lexical_cast(myTimer.getCurrTime()), 3.f, CenterAlign);
 
+	if (myTimer.getCurrTime() == 0 && !isWin)
+	{
+		Render::PrintString(500.f, 500.f, "You Lose!", 1.f, CenterAlign);
+		Render::PrintString(500.f, 400.f, "Press \"R\" to restart", 1.f, CenterAlign);
+	}
+
+	if (enemiesCount == 0 && !isLose)
+	{
+		Render::PrintString(500.f, 550.f, "You Lose!", 1.f, CenterAlign);
+		Render::PrintString(500.f, 400.f, "Press \"R\" to restart", 1.f, CenterAlign);
+	}
 }
 
 void LevelFirst::Update(float dt)
@@ -144,22 +148,26 @@ void LevelFirst::Update(float dt)
 	}
 
 	myTimer.Tick();
+	myGun.Reloading();
 
-	if (myTimer.getCurrTime() == 0)
+	if (myTimer.getCurrTime() == 0 && !isWin)
 	{
+		isLose = true;
 	}
 
-	if (enemiesCount == 0)
+	if (enemiesCount == 0 && !isLose)
 	{
+		isWin = true;
 	}
 }
 
 bool LevelFirst::MouseDown(const IPoint &mouse_pos)
 {
-	if (Core::mainInput.GetMouseLeftButton())
+	if (Core::mainInput.GetMouseLeftButton() && myGun.isReadyToFire())
 	{
 		Bullet * newBullet = new Bullet();
 		BulletsCollection.push_back(newBullet);
+		myGun.beginReload();
 	}
 	return true;
 }
@@ -186,8 +194,20 @@ void LevelFirst::KeyPressed(int keyCode)
 
 void LevelFirst::CharPressed(int unicodeChar)
 {
-	if (unicodeChar == 27)
+	if (unicodeChar == 114 || unicodeChar == 82)
 	{
-		// Выход из игры
+		for (int i = EnemiesCollection.size() - 1; i >= 0; --i)
+		{
+			delete EnemiesCollection[i];
+			EnemiesCollection.pop_back();
+		}
+
+		for (int i = BulletsCollection.size() - 1; i >= 0; --i)
+		{
+			delete BulletsCollection[i];
+			BulletsCollection.pop_back();
+		}
+
+		Init();
 	}
 }
