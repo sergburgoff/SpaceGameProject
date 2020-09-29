@@ -23,8 +23,11 @@ public:
 	void KeyPressed(int keyCode) override;
 	void CharPressed(int unicodeChar) override;
 
+	bool Deserialisation();
+
 private:
 	void Init();
+
 private:
 	float _timer;
 
@@ -34,7 +37,9 @@ private:
 	EffectsContainer _effCont;
 	ParticleEffectPtr _eff;
 
-	size_t enemiesCount;
+	size_t _simpleEnemiesCount;
+	size_t _armoredEnemiesCount;
+	size_t _enemiesCount;
 
 	gameTimer myTimer;
 	Gun myGun;

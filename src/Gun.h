@@ -1,8 +1,6 @@
 #include "GameObject.h"
 #pragma once
 
-#define RELOADING_TIME 200;
-
 class Gun : public GameObject
 {
 public:

@@ -11,6 +11,8 @@ SimpleEnemy::SimpleEnemy() : MovableTarget("SimpleEnemy")
 	collisionObj_shield = 0;
 	collisionWall_shield = 0;
 	speed = 5.0f;
+	_hitPoints = 1;
+
 	Scale(70.0f, 70.0f);
 	x = Random((float)Settings::LEFT_BORDER, (float)Settings::RIGHT_BORDER - width);
 	std::this_thread::sleep_for(std::chrono::seconds(1));
@@ -67,6 +69,17 @@ void SimpleEnemy::setDirection()
 void SimpleEnemy::Destroy()
 {
 	DeathAnimation();
+}
+
+void SimpleEnemy::Hit()
+{
+	if (_hitPoints != 0)
+		--_hitPoints;
+}
+
+size_t SimpleEnemy::getCurrentHitPoints()
+{
+	return _hitPoints;
 }
 
 void SimpleEnemy::DeathAnimation()

@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "Settings.h"
 #include "Gun.h"
 
 Gun::Gun() : GameObject("Gun") {}
@@ -42,5 +43,5 @@ void Gun::Reloading()
 void Gun::beginReload()
 {
 	if (_reload == 0)
-		_reload = RELOADING_TIME;
+		_reload = Settings::RELOADING_TIME;
 }

@@ -5,10 +5,13 @@
 #include "Gun.h"
 #include "Cursor.h"
 #include "SimpleEnemy.h"
+#include "ArmoredEnemy.h"
 #include "MovableTarget.h"
 #include "Bullet.h"
 #include "LevelFirst.h"
 #include "gameTimer.h"
+#include <iostream>
+#include <fstream>
 
 LevelFirst::LevelFirst(const std::string& name, rapidxml::xml_node<>* elem)
 	: Widget(name)
@@ -20,18 +23,23 @@ LevelFirst::LevelFirst(const std::string& name, rapidxml::xml_node<>* elem)
 
 void LevelFirst::Init()
 {
-	myTimer.addSeconds(60);
+	Deserialisation();
 
-	enemiesCount = 10;
-	
 	myGun.setPosition(436.0f, 100.0f);
 	myGun.Scale(500.0f, 500.0f);
 
 	ShowCursor(false);
 
-	for (size_t i = 0; i < enemiesCount; ++i)
+	_enemiesCount = _simpleEnemiesCount + _armoredEnemiesCount;
+
+	for (size_t i = 0; i < _simpleEnemiesCount; ++i)
 	{
 		SimpleEnemy * newEnemy = new SimpleEnemy();
+		EnemiesCollection.push_back(newEnemy);
+	}
+	for (size_t i = 0; i < _armoredEnemiesCount; ++i)
+	{
+		ArmoredEnemy * newEnemy = new ArmoredEnemy();
 		EnemiesCollection.push_back(newEnemy);
 	}
 }
@@ -84,15 +92,19 @@ void LevelFirst::Draw()
 			{
 				std::vector<SimpleEnemy*>::iterator enemy = EnemiesCollection.begin() + cur_enemy;
 				std::vector<Bullet*>::iterator bullet = BulletsCollection.begin() + cur_bullet;
-				EnemiesCollection[cur_enemy]->Destroy();
-				BulletsCollection[cur_bullet]->Destroy();
 
-				delete EnemiesCollection[cur_enemy];
 				delete BulletsCollection[cur_bullet];
-
-				EnemiesCollection.erase(enemy);
 				BulletsCollection.erase(bullet);
-				--enemiesCount;
+				
+				EnemiesCollection[cur_enemy]->Hit();
+
+				if (EnemiesCollection[cur_enemy]->getCurrentHitPoints()
+					== 0)
+				{
+					delete EnemiesCollection[cur_enemy];
+					EnemiesCollection.erase(enemy);
+					--_enemiesCount;
+				}
 				break;
 			}
 		}
@@ -130,7 +142,7 @@ void LevelFirst::Draw()
 		Render::PrintString(500.f, 400.f, "Press \"R\" to restart", 1.f, CenterAlign);
 	}
 
-	if (enemiesCount == 0 && !isLose)
+	if (_enemiesCount == 0 && !isLose)
 	{
 		Render::PrintString(500.f, 550.f, "You Lose!", 1.f, CenterAlign);
 		Render::PrintString(500.f, 400.f, "Press \"R\" to restart", 1.f, CenterAlign);
@@ -155,7 +167,7 @@ void LevelFirst::Update(float dt)
 		isLose = true;
 	}
 
-	if (enemiesCount == 0 && !isLose)
+	if (_enemiesCount == 0 && !isLose)
 	{
 		isWin = true;
 	}
@@ -210,4 +222,28 @@ void LevelFirst::CharPressed(int unicodeChar)
 
 		Init();
 	}
+}
+
+bool LevelFirst::Deserialisation()
+{
+	std::ifstream input;
+
+	input.open("settings.txt");
+
+	if (!input.is_open())
+		return false;
+
+	std::string inLine;
+
+	input >> inLine;
+	_simpleEnemiesCount = std::stoi(inLine);
+	input >> inLine;
+	_armoredEnemiesCount = std::stoi(inLine);
+	input >> inLine;
+	myTimer.addSeconds(std::stoi(inLine));
+
+	input.close();
+
+	return true;
+
 }
