@@ -21,12 +21,13 @@ void Gun::Draw()
 
 	IRect texRect = _texture->getBitmapRect();
 	FRect rect(texRect);
+	rect.Scale(width, height);
 	FRect uv(0, 1, 0 , 1);
 	_texture->TranslateUV(rect, uv);
 
-	Render::device.MatrixScale(0.150f);
-	Render::device.MatrixTranslate(-texRect.width *0.5,
-		-texRect.height * 0.5, 0.0f);
+	//Render::device.MatrixScale(width, height, 0);
+	Render::device.MatrixTranslate(-width *0.5,
+		-height * 0.5, 0.0f);
 	_texture->Bind();
 	Render::DrawQuad(rect,uv);
 	Render::device.PopMatrix();
@@ -42,15 +43,15 @@ void Gun::Reloading()
 	if (_reload == Settings::RELOADING_TIME)
 		setTexture("GunReady");
 
-	if (_reload >= 0 && (Setting::RELOADING_TIME / 100.0) * 33 > (_reload / Settings::RELOADING_TIME) * 100)
+	if (_reload < Settings::RELOADING_TIME * 0.33)
 		setTexture("GunReload1");
 
-	if ((Setting::RELOADING_TIME / 100.0) * 33 <= (_reload / Settings::RELOADING_TIME) * 100
-		&& (Setting::RELOADING_TIME / 100.0) * 66 > (_reload / Settings::RELOADING_TIME) * 100)
+	if (_reload >= Settings::RELOADING_TIME * 0.33
+		&& _reload < Settings::RELOADING_TIME * 0.66)
 		setTexture("GunReload2");
 
-	if ((Setting::RELOADING_TIME / 100.0) * 66 <= (_reload / Settings::RELOADING_TIME) * 100
-		&& (Setting::RELOADING_TIME / 100.0) * 99 > (_reload / Settings::RELOADING_TIME) * 100)
+	if (_reload >= Settings::RELOADING_TIME * 0.66
+		&& _reload < Settings::RELOADING_TIME * 0.99)
 		setTexture("GunReload3");
 
 	if (_reload != Settings::RELOADING_TIME)

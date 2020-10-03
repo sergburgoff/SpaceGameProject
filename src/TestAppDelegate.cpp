@@ -51,6 +51,7 @@ void TestAppDelegate::LoadResources()
 	// Обычно в этом методе выполняется скрипт, в котором определяется,
 	// какие ресурсы нужно загрузить и какой игровой слой положить на экран.
 	//
+	Settings::Deserialisation();
 	Core::LuaExecuteStartupScript("start.lua");
 }
 

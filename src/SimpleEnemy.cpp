@@ -65,10 +65,6 @@ void SimpleEnemy::setDirection()
 	_angle = Random(0.0f, 360.0f);
 }
 
-void SimpleEnemy::Destroy()
-{
-	DeathAnimation();
-}
 
 void SimpleEnemy::Hit()
 {
@@ -79,9 +75,4 @@ void SimpleEnemy::Hit()
 size_t SimpleEnemy::getCurrentHitPoints()
 {
 	return _hitPoints;
-}
-
-void SimpleEnemy::DeathAnimation()
-{
-
 }

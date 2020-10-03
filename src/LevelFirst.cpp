@@ -35,13 +35,13 @@ void LevelFirst::Init()
 	for (size_t i = 0; i < _simpleEnemiesCount; ++i)
 	{
 		SimpleEnemy * newEnemy = new SimpleEnemy();
-		newEnemy.Scale(70.0f, 70.0f);
+		newEnemy->Scale(70.0f, 70.0f);
 		EnemiesCollection.push_back(newEnemy);
 	}
 	for (size_t i = 0; i < _armoredEnemiesCount; ++i)
 	{
 		ArmoredEnemy * newEnemy = new ArmoredEnemy();
-		newEnemy.Scale(90.0f, 90.0f);
+		newEnemy->Scale(90.0f, 90.0f);
 		EnemiesCollection.push_back(newEnemy);
 	}
 }
@@ -57,10 +57,10 @@ void LevelFirst::Draw()
 			std::vector<Bullet*>::iterator bullet = BulletsCollection.begin() + cur_bullet;
 			
 			_eff = _effCont.AddEffect("Explosion");
-			_eff->posX = EnemiesCollection[cur_enemy].getX
-				+ EnemiesCollection[cur_enemy].getWidth * 0.5;
-			_eff->posY = EnemiesCollection[cur_enemy].getY
-				+ EnemiesCollection[cur_enemy].getHeight * 0.5;
+			_eff->posX = BulletsCollection[cur_bullet]->getX()
+				+ BulletsCollection[cur_bullet]->getWidth() * 0.5;
+			_eff->posY = BulletsCollection[cur_bullet]->getY()
+				+ BulletsCollection[cur_bullet]->getHeight() * 0.5;
 			_eff->Reset();
 
 			delete BulletsCollection[cur_bullet];
@@ -102,20 +102,20 @@ void LevelFirst::Draw()
 				std::vector<Bullet*>::iterator bullet = BulletsCollection.begin() + cur_bullet;
 				
 				_eff = _effCont.AddEffect("Explosion");
-				_eff->posX = EnemiesCollection[cur_enemy].getX
-					+ EnemiesCollection[cur_enemy].getWidth * 0.5;
-				_eff->posY = EnemiesCollection[cur_enemy].getY
-					+ EnemiesCollection[cur_enemy].getHeight * 0.5;
+				_eff->posX = EnemiesCollection[cur_enemy]->getX()
+					+ EnemiesCollection[cur_enemy]->getWidth() * 0.5;
+				_eff->posY = EnemiesCollection[cur_enemy]->getY()
+					+ EnemiesCollection[cur_enemy]->getHeight() * 0.5;
 				_eff->Reset();
 
 				delete BulletsCollection[cur_bullet];
 				BulletsCollection.erase(bullet);
 				
 				_eff = _effCont.AddEffect("ArmorDestroy");
-				_eff->posX = EnemiesCollection[cur_enemy].getX
-					+ EnemiesCollection[cur_enemy].getWidth * 0.5;
-				_eff->posY = EnemiesCollection[cur_enemy].getY
-					+ EnemiesCollection[cur_enemy].getHeight * 0.5;
+				_eff->posX = EnemiesCollection[cur_enemy]->getX()
+					+ EnemiesCollection[cur_enemy]->getWidth() * 0.5;
+				_eff->posY = EnemiesCollection[cur_enemy]->getY()
+					+ EnemiesCollection[cur_enemy]->getHeight() * 0.5;
 				_eff->Reset();
 
 				EnemiesCollection[cur_enemy]->Hit();
@@ -124,10 +124,10 @@ void LevelFirst::Draw()
 					== 0)
 				{
 					_eff = _effCont.AddEffect("Explosion");
-					_eff->posX = EnemiesCollection[cur_enemy].getX 
-						+ EnemiesCollection[cur_enemy].getWidth * 0.5;
-					_eff->posY = EnemiesCollection[cur_enemy].getY 
-						+ EnemiesCollection[cur_enemy].getHeight * 0.5;
+					_eff->posX = EnemiesCollection[cur_enemy]->getX()
+						+ EnemiesCollection[cur_enemy]->getWidth() * 0.5;
+					_eff->posY = EnemiesCollection[cur_enemy]->getY()
+						+ EnemiesCollection[cur_enemy]->getHeight() * 0.5;
 					_eff->Reset();
 					delete EnemiesCollection[cur_enemy];
 					EnemiesCollection.erase(enemy);
@@ -182,6 +182,16 @@ void LevelFirst::Update(float dt)
 
 	_effCont.Update(dt);
 
+	if (_eff)
+	{
+		//
+		// Если эффект создан, то при отпускании мыши завершаем его.
+		//
+		_eff->Finish();
+		_eff = NULL;
+		_effCont.Finish();
+	}
+
 	_timer += dt *2;
 
 	while (_timer > 2 * math::PI)
@@ -207,9 +217,8 @@ bool LevelFirst::MouseDown(const IPoint &mouse_pos)
 {
 	if (Core::mainInput.GetMouseLeftButton() && myGun.isReadyToFire())
 	{
-		Bullet * newBullet = new Bullet();
-		newBullet.Scale(50.0f, 50.0f);
-		newBullet->setPosition(432.0f, 92.0f);
+		Bullet * newBullet = new Bullet(432.0f, 92.0f);
+		newBullet->Scale(50.0f, 50.0f);
 
 		BulletsCollection.push_back(newBullet);
 		myGun.beginReload();
@@ -246,7 +255,7 @@ void LevelFirst::CharPressed(int unicodeChar)
 	}
 }
 
-void LevelFirs::ClearScreen()
+void LevelFirst::ClearScreen()
 {
 	for (int i = EnemiesCollection.size() - 1; i >= 0; --i)
 	{
@@ -265,19 +274,22 @@ bool LevelFirst::Deserialisation()
 {
 	std::ifstream input;
 
-	input.open("settings.txt");
+	input.open("base_p/level_1.txt"); // Не уверен, что так корректно
 
 	if (!input.is_open())
 		return false;
 
 	std::string inLine;
 
+	input >> inLine; // Стоит сделать как-нибудь умнее))
 	input >> inLine;
-	_simpleEnemiesCount = std::stoi(inLine);
+	_simpleEnemiesCount = std::stof(inLine);
 	input >> inLine;
-	_armoredEnemiesCount = std::stoi(inLine);
 	input >> inLine;
-	myTimer.addSeconds(std::stoi(inLine));
+	_armoredEnemiesCount = std::stof(inLine);
+	input >> inLine;
+	input >> inLine;
+	myTimer.addSeconds(std::stof(inLine));
 
 	input.close();
 

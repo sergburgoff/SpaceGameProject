@@ -6,9 +6,6 @@
 		</font>
 	</FreeTypeFonts>
 	<Textures>
-    <texture id="Star" path="textures/star.png" group="TestGroup" upload="false"/>
-    <texture id="Circle" path="textures/circle.png" group="TestGroup" upload="false"/>
-    <texture id="btnStart_Text" path="textures/Local/Buttons/Start_text.png" group="MainMenu" upload="true"/>
     <texture id="GunReady" path="textures/Local/Gun/Cannon_3.png" />
     <texture id="GunReload1" path="textures/Local/Gun/Cannon_0.png" />
     <texture id="GunReload2" path="textures/Local/Gun/Cannon_1.png" />

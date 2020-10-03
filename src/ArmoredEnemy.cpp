@@ -2,13 +2,13 @@
 #include "ArmoredEnemy.h"
 #include "Settings.h"
 
-ArmoredEnemy() : SimpleEnemy()
+ArmoredEnemy::ArmoredEnemy() : SimpleEnemy()
 {
 	setTexture("ArmoredEnemy");
-	speed = Settings::AMRORED_ENEMIES_SPEED;
+	speed = Settings::ARMORED_ENEMIES_SPEED;
 	_hitPoints = 2;
 }
-void SimpleEnemy::Hit()
+void ArmoredEnemy::Hit()
 {
 	if (_hitPoints != 0)
 		--_hitPoints;

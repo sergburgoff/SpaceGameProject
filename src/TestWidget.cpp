@@ -14,9 +14,9 @@ TestWidget::TestWidget(const std::string& name, rapidxml::xml_node<>* elem)
 
 void TestWidget::Init()
 {
-	_tex1 = Core::resourceManager.Get<Render::Texture>("btnStart_Text");
-	_tex2 = Core::resourceManager.Get<Render::Texture>("Circle");
-	_tex3 = Core::resourceManager.Get<Render::Texture>("Star");
+	//_tex1 = Core::resourceManager.Get<Render::Texture>("btnStart_Text");
+	//_tex2 = Core::resourceManager.Get<Render::Texture>("Circle");
+	//_tex3 = Core::resourceManager.Get<Render::Texture>("Star");
 
 	_curTex = 0;
 	_angle = 0;

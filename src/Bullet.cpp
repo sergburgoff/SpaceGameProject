@@ -2,8 +2,10 @@
 #include "Bullet.h"
 #include "Settings.h"
 
-Bullet::Bullet() : MovableTarget("Bullet")
+Bullet::Bullet(float x, float y) : MovableTarget("Bullet")
 {
+	this->x = x;
+	this->y = y;
 	speed = Settings::BULLET_SPEED; //8.0f;
 	setDirection();
 }

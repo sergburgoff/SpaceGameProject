@@ -32,7 +32,7 @@ bool Settings::Deserialisation()
 {
 	std::ifstream input;
 
-	input.open("settings.txt");
+	input.open("base_p/settings.txt");
 
 	if (!input.is_open())
 		return false;
@@ -40,13 +40,17 @@ bool Settings::Deserialisation()
 	std::string inLine;
 
 	input >> inLine;
-	BULLET_SPEED = std::stoi(inLine);
 	input >> inLine;
-	SIMPLE_ENEMIES_SPEED = std::stoi(inLine);
+	BULLET_SPEED = std::stof(inLine);
 	input >> inLine;
-	ARMORED_ENEMIES_SPEED = std::stoi(inLine);
 	input >> inLine;
-	RELOADING_TIME = std::stoi(inLine);
+	SIMPLE_ENEMIES_SPEED = std::stof(inLine);
+	input >> inLine;
+	input >> inLine;
+	ARMORED_ENEMIES_SPEED = std::stof(inLine);
+	input >> inLine;
+	input >> inLine;
+	RELOADING_TIME = std::stof(inLine);
 
 	input.close();
 
