@@ -2,7 +2,10 @@
 #include "Settings.h"
 #include "Gun.h"
 
-Gun::Gun() : GameObject("Gun") {}
+Gun::Gun() : GameObject("GunReady") 
+{
+	_reload = Settings::RELOADING_TIME;
+}
 
 void Gun::Draw()
 {
@@ -31,17 +34,31 @@ void Gun::Draw()
 
 bool Gun::isReadyToFire()
 {
-	return _reload == 0;
+	return _reload == Settings::RELOADING_TIME;
 }
 
 void Gun::Reloading()
 {
-	if (_reload != 0)
-		--_reload;
+	if (_reload == Settings::RELOADING_TIME)
+		setTexture("GunReady");
+
+	if (_reload >= 0 && (Setting::RELOADING_TIME / 100.0) * 33 > (_reload / Settings::RELOADING_TIME) * 100)
+		setTexture("GunReload1");
+
+	if ((Setting::RELOADING_TIME / 100.0) * 33 <= (_reload / Settings::RELOADING_TIME) * 100
+		&& (Setting::RELOADING_TIME / 100.0) * 66 > (_reload / Settings::RELOADING_TIME) * 100)
+		setTexture("GunReload2");
+
+	if ((Setting::RELOADING_TIME / 100.0) * 66 <= (_reload / Settings::RELOADING_TIME) * 100
+		&& (Setting::RELOADING_TIME / 100.0) * 99 > (_reload / Settings::RELOADING_TIME) * 100)
+		setTexture("GunReload3");
+
+	if (_reload != Settings::RELOADING_TIME)
+		++_reload;
 }
 
 void Gun::beginReload()
 {
-	if (_reload == 0)
-		_reload = Settings::RELOADING_TIME;
+	if (_reload == Settings::RELOADING_TIME)
+		_reload = 0;
 }

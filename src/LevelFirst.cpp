@@ -35,11 +35,13 @@ void LevelFirst::Init()
 	for (size_t i = 0; i < _simpleEnemiesCount; ++i)
 	{
 		SimpleEnemy * newEnemy = new SimpleEnemy();
+		newEnemy.Scale(70.0f, 70.0f);
 		EnemiesCollection.push_back(newEnemy);
 	}
 	for (size_t i = 0; i < _armoredEnemiesCount; ++i)
 	{
 		ArmoredEnemy * newEnemy = new ArmoredEnemy();
+		newEnemy.Scale(90.0f, 90.0f);
 		EnemiesCollection.push_back(newEnemy);
 	}
 }
@@ -53,7 +55,13 @@ void LevelFirst::Draw()
 		if (BulletsCollection[cur_bullet]->CheckWallCollision())
 		{
 			std::vector<Bullet*>::iterator bullet = BulletsCollection.begin() + cur_bullet;
-			BulletsCollection[cur_bullet]->Destroy();
+			
+			_eff = _effCont.AddEffect("Explosion");
+			_eff->posX = EnemiesCollection[cur_enemy].getX
+				+ EnemiesCollection[cur_enemy].getWidth * 0.5;
+			_eff->posY = EnemiesCollection[cur_enemy].getY
+				+ EnemiesCollection[cur_enemy].getHeight * 0.5;
+			_eff->Reset();
 
 			delete BulletsCollection[cur_bullet];
 
@@ -92,15 +100,35 @@ void LevelFirst::Draw()
 			{
 				std::vector<SimpleEnemy*>::iterator enemy = EnemiesCollection.begin() + cur_enemy;
 				std::vector<Bullet*>::iterator bullet = BulletsCollection.begin() + cur_bullet;
+				
+				_eff = _effCont.AddEffect("Explosion");
+				_eff->posX = EnemiesCollection[cur_enemy].getX
+					+ EnemiesCollection[cur_enemy].getWidth * 0.5;
+				_eff->posY = EnemiesCollection[cur_enemy].getY
+					+ EnemiesCollection[cur_enemy].getHeight * 0.5;
+				_eff->Reset();
 
 				delete BulletsCollection[cur_bullet];
 				BulletsCollection.erase(bullet);
 				
+				_eff = _effCont.AddEffect("ArmorDestroy");
+				_eff->posX = EnemiesCollection[cur_enemy].getX
+					+ EnemiesCollection[cur_enemy].getWidth * 0.5;
+				_eff->posY = EnemiesCollection[cur_enemy].getY
+					+ EnemiesCollection[cur_enemy].getHeight * 0.5;
+				_eff->Reset();
+
 				EnemiesCollection[cur_enemy]->Hit();
 
 				if (EnemiesCollection[cur_enemy]->getCurrentHitPoints()
 					== 0)
 				{
+					_eff = _effCont.AddEffect("Explosion");
+					_eff->posX = EnemiesCollection[cur_enemy].getX 
+						+ EnemiesCollection[cur_enemy].getWidth * 0.5;
+					_eff->posY = EnemiesCollection[cur_enemy].getY 
+						+ EnemiesCollection[cur_enemy].getHeight * 0.5;
+					_eff->Reset();
 					delete EnemiesCollection[cur_enemy];
 					EnemiesCollection.erase(enemy);
 					--_enemiesCount;
@@ -130,7 +158,7 @@ void LevelFirst::Draw()
 	//
 	// Рисуем все эффекты, которые добавили в контейнер (Update() для контейнера вызывать не нужно).
 	//
-	//_effCont.Draw();
+	_effCont.Draw();
 
 	Render::BindFont("arial");
 	Render::PrintString(924 + 100 / 2, 35, utils::lexical_cast(mouse_pos.x) + ", " + utils::lexical_cast(mouse_pos.y), 1.f, CenterAlign);
@@ -151,6 +179,8 @@ void LevelFirst::Draw()
 
 void LevelFirst::Update(float dt)
 {
+
+	_effCont.Update(dt);
 
 	_timer += dt *2;
 
@@ -178,6 +208,9 @@ bool LevelFirst::MouseDown(const IPoint &mouse_pos)
 	if (Core::mainInput.GetMouseLeftButton() && myGun.isReadyToFire())
 	{
 		Bullet * newBullet = new Bullet();
+		newBullet.Scale(50.0f, 50.0f);
+		newBullet->setPosition(432.0f, 92.0f);
+
 		BulletsCollection.push_back(newBullet);
 		myGun.beginReload();
 	}
@@ -208,19 +241,23 @@ void LevelFirst::CharPressed(int unicodeChar)
 {
 	if (unicodeChar == 114 || unicodeChar == 82)
 	{
-		for (int i = EnemiesCollection.size() - 1; i >= 0; --i)
-		{
-			delete EnemiesCollection[i];
-			EnemiesCollection.pop_back();
-		}
-
-		for (int i = BulletsCollection.size() - 1; i >= 0; --i)
-		{
-			delete BulletsCollection[i];
-			BulletsCollection.pop_back();
-		}
-
+		ClearScreen();
 		Init();
+	}
+}
+
+void LevelFirs::ClearScreen()
+{
+	for (int i = EnemiesCollection.size() - 1; i >= 0; --i)
+	{
+		delete EnemiesCollection[i];
+		EnemiesCollection.pop_back();
+	}
+
+	for (int i = BulletsCollection.size() - 1; i >= 0; --i)
+	{
+		delete BulletsCollection[i];
+		BulletsCollection.pop_back();
 	}
 }
 

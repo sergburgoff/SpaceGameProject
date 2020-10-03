@@ -14,6 +14,8 @@ public:
 	void Draw() override;
 	void Update(float dt) override;
 
+	void ClearScreen();
+
 	void AcceptMessage(const Message& message) override;
 
 	bool MouseDown(const IPoint& mouse_pos) override;

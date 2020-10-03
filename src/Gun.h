@@ -13,6 +13,6 @@ public:
 
 	//Animation
 private:
-	size_t _reload = 0;
+	size_t _reload;
 };
 

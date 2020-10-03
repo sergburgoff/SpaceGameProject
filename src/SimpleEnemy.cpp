@@ -10,10 +10,9 @@ SimpleEnemy::SimpleEnemy() : MovableTarget("SimpleEnemy")
 {
 	collisionObj_shield = 0;
 	collisionWall_shield = 0;
-	speed = 5.0f;
+	speed = Settings::SIMPLE_ENEMIES_SPEED; // 5.0f;
 	_hitPoints = 1;
 
-	Scale(70.0f, 70.0f);
 	x = Random((float)Settings::LEFT_BORDER, (float)Settings::RIGHT_BORDER - width);
 	std::this_thread::sleep_for(std::chrono::seconds(1));
 	y = Random((float)Settings::BOTTOM_BORDER, (float)Settings::TOP_BORDER - height);

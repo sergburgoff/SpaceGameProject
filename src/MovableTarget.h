@@ -8,7 +8,6 @@ public:
 
 	virtual bool CheckWallCollision();
 	virtual void onCollision() = 0;
-	virtual void Destroy() = 0;
 
 	virtual void chargeObjectShield();
 	virtual void chargeWallShield();
@@ -17,7 +16,6 @@ public:
 	virtual bool isWallShieldOn();
 
 protected:
-	virtual void DeathAnimation() = 0;
 	virtual void setDirection() {}
 public:
 	const std::string type;

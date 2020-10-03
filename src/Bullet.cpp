@@ -1,12 +1,10 @@
 #include "stdafx.h"
 #include "Bullet.h"
+#include "Settings.h"
 
 Bullet::Bullet() : MovableTarget("Bullet")
 {
-	speed = 8.0f;
-	Scale(50.0f, 50.0f);
-	x = 432.0f;
-	y = 92.0f; // 100
+	speed = Settings::BULLET_SPEED; //8.0f;
 	setDirection();
 }
 
@@ -21,11 +19,3 @@ void Bullet::setDirection()
 void Bullet::onCollision()
 {
 }
-
-void Bullet::Destroy()
-{
-
-}
-
-void Bullet::DeathAnimation()
-{}
