@@ -7,8 +7,8 @@ class Settings
 public:
 	static void setBorders();
 
-	static bool Serialisation();
-	static bool Deserialisation();
+	static bool LoadSettings();
+
 public:
 	static int WINDOW_WIDTH;
 	static int WINDOW_HEIGHT;

@@ -25,7 +25,9 @@ public:
 	void KeyPressed(int keyCode) override;
 	void CharPressed(int unicodeChar) override;
 
-	bool Deserialisation();
+	bool LoadLevelSettings();
+
+	void SetEffect(std::string effect_name, float x, float y)
 
 private:
 	void Init();

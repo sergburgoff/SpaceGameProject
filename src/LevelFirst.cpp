@@ -13,17 +13,19 @@
 #include <iostream>
 #include <fstream>
 
+#define DEBUG
+
 LevelFirst::LevelFirst(const std::string& name, rapidxml::xml_node<>* elem)
 	: Widget(name)
 	, _timer(0)
 	, _eff(NULL)
 {
+	LoadLevelSettings();
 	Init();
 }
 
 void LevelFirst::Init()
 {
-	Deserialisation();
 
 	myGun.setPosition(436.0f, 100.0f);
 	myGun.Scale(500.0f, 500.0f);
@@ -56,12 +58,9 @@ void LevelFirst::Draw()
 		{
 			std::vector<Bullet*>::iterator bullet = BulletsCollection.begin() + cur_bullet;
 			
-			_eff = _effCont.AddEffect("Explosion");
-			_eff->posX = BulletsCollection[cur_bullet]->getX()
-				+ BulletsCollection[cur_bullet]->getWidth() * 0.5;
-			_eff->posY = BulletsCollection[cur_bullet]->getY()
-				+ BulletsCollection[cur_bullet]->getHeight() * 0.5;
-			_eff->Reset();
+			SetEffect("Explosion", BulletsCollection[cur_bullet]->getX()
+				+ BulletsCollection[cur_bullet]->getWidth() * 0.5, BulletsCollection[cur_bullet]->getY()
+				+ BulletsCollection[cur_bullet]->getHeight() * 0.5);
 
 			delete BulletsCollection[cur_bullet];
 
@@ -101,34 +100,26 @@ void LevelFirst::Draw()
 				std::vector<SimpleEnemy*>::iterator enemy = EnemiesCollection.begin() + cur_enemy;
 				std::vector<Bullet*>::iterator bullet = BulletsCollection.begin() + cur_bullet;
 				
-				_eff = _effCont.AddEffect("Explosion");
-				_eff->posX = EnemiesCollection[cur_enemy]->getX()
-					+ EnemiesCollection[cur_enemy]->getWidth() * 0.5;
-				_eff->posY = EnemiesCollection[cur_enemy]->getY()
-					+ EnemiesCollection[cur_enemy]->getHeight() * 0.5;
-				_eff->Reset();
+				SetEffect("Explosion", BulletsCollection[cur_bullet]->getX()
+					+ BulletsCollection[cur_bullet]->getWidth() * 0.5, BulletsCollection[cur_bullet]->getY()
+					+ BulletsCollection[cur_bullet]->getHeight() * 0.5);
 
 				delete BulletsCollection[cur_bullet];
 				BulletsCollection.erase(bullet);
 				
-				_eff = _effCont.AddEffect("ArmorDestroy");
-				_eff->posX = EnemiesCollection[cur_enemy]->getX()
-					+ EnemiesCollection[cur_enemy]->getWidth() * 0.5;
-				_eff->posY = EnemiesCollection[cur_enemy]->getY()
-					+ EnemiesCollection[cur_enemy]->getHeight() * 0.5;
-				_eff->Reset();
+				SetEffect("ArmorDestroy", EnemiesCollection[cur_enemy]->getX()
+					+ EnemiesCollection[cur_enemy]->getWidth() * 0.5, EnemiesCollection[cur_enemy]->getY()
+					+ EnemiesCollection[cur_enemy]->getHeight() * 0.5);
 
 				EnemiesCollection[cur_enemy]->Hit();
 
 				if (EnemiesCollection[cur_enemy]->getCurrentHitPoints()
 					== 0)
 				{
-					_eff = _effCont.AddEffect("Explosion");
-					_eff->posX = EnemiesCollection[cur_enemy]->getX()
-						+ EnemiesCollection[cur_enemy]->getWidth() * 0.5;
-					_eff->posY = EnemiesCollection[cur_enemy]->getY()
-						+ EnemiesCollection[cur_enemy]->getHeight() * 0.5;
-					_eff->Reset();
+					SetEffect("Explosion", EnemiesCollection[cur_enemy]->getX()
+						+ EnemiesCollection[cur_enemy]->getWidth() * 0.5, EnemiesCollection[cur_enemy]->getY()
+						+ EnemiesCollection[cur_enemy]->getHeight() * 0.5);
+
 					delete EnemiesCollection[cur_enemy];
 					EnemiesCollection.erase(enemy);
 					--_enemiesCount;
@@ -139,26 +130,18 @@ void LevelFirst::Draw()
 	}
 
 	myCursor.Draw();
-
-	Render::device.SetTexturing(false);
-
-	IPoint mouse_pos = Core::mainInput.GetMousePos();
-	
-	Render::BeginColor(Color(255, 128, 0, 255));
-
-	
-	Render::DrawRect(924, 0, 100, 100);
-
-	
-	Render::EndColor();
-
-	
-	Render::device.SetTexturing(true);
-
 	//
 	// Рисуем все эффекты, которые добавили в контейнер (Update() для контейнера вызывать не нужно).
 	//
 	_effCont.Draw();
+
+#ifdef DEBUG
+	Render::device.SetTexturing(false);
+	Render::BeginColor(Color(255, 128, 0, 255));
+	Render::DrawRect(924, 0, 100, 100);
+	Render::EndColor();
+	Render::device.SetTexturing(true);
+#endif
 
 	Render::BindFont("arial");
 	Render::PrintString(924 + 100 / 2, 35, utils::lexical_cast(mouse_pos.x) + ", " + utils::lexical_cast(mouse_pos.y), 1.f, CenterAlign);
@@ -182,16 +165,6 @@ void LevelFirst::Update(float dt)
 
 	_effCont.Update(dt);
 
-	if (_eff)
-	{
-		//
-		// Если эффект создан, то при отпускании мыши завершаем его.
-		//
-		_eff->Finish();
-		_eff = NULL;
-		_effCont.Finish();
-	}
-
 	_timer += dt *2;
 
 	while (_timer > 2 * math::PI)
@@ -213,6 +186,25 @@ void LevelFirst::Update(float dt)
 	}
 }
 
+void LevelFirst::SetEffect(std::string effect_name, float x, float y)
+{
+	_eff = _effCont.AddEffect(effect_name);
+	_eff->posX = x;
+	_eff->posY = y;
+	_eff->Reset();
+
+	if (_eff)
+	{
+		//
+		// Если эффект создан, то при отпускании мыши завершаем его.
+		//
+		_eff->Finish();
+		_eff = NULL;
+		_effCont.Finish();
+	}
+
+}
+
 bool LevelFirst::MouseDown(const IPoint &mouse_pos)
 {
 	if (Core::mainInput.GetMouseLeftButton() && myGun.isReadyToFire())
@@ -224,26 +216,6 @@ bool LevelFirst::MouseDown(const IPoint &mouse_pos)
 		myGun.beginReload();
 	}
 	return true;
-}
-
-void LevelFirst::MouseMove(const IPoint &mouse_pos)
-{
-	
-}
-
-void LevelFirst::MouseUp(const IPoint &mouse_pos)
-{
-	
-}
-
-void LevelFirst::AcceptMessage(const Message& message)
-{
-	
-}
-
-void LevelFirst::KeyPressed(int keyCode)
-{
-
 }
 
 void LevelFirst::CharPressed(int unicodeChar)
@@ -270,7 +242,7 @@ void LevelFirst::ClearScreen()
 	}
 }
 
-bool LevelFirst::Deserialisation()
+bool LevelFirst::LoadLevelSettings()
 {
 	std::ifstream input;
 
@@ -294,5 +266,26 @@ bool LevelFirst::Deserialisation()
 	input.close();
 
 	return true;
+
+}
+
+
+void LevelFirst::MouseMove(const IPoint &mouse_pos)
+{
+	
+}
+
+void LevelFirst::MouseUp(const IPoint &mouse_pos)
+{
+	
+}
+
+void LevelFirst::AcceptMessage(const Message& message)
+{
+	
+}
+
+void LevelFirst::KeyPressed(int keyCode)
+{
 
 }

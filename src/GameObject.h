@@ -19,6 +19,7 @@ public:
 
 	void setTexture(std::string texture_name);
 	Render::Texture& getTexture();
+
 protected:
 	float x, y;
 	float width, height;

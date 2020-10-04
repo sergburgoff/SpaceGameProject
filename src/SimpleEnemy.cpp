@@ -10,13 +10,16 @@ SimpleEnemy::SimpleEnemy() : MovableTarget("SimpleEnemy")
 {
 	collisionObj_shield = 0;
 	collisionWall_shield = 0;
-	speed = Settings::SIMPLE_ENEMIES_SPEED; // 5.0f;
+
+	_speed = Settings::SIMPLE_ENEMIES_SPEED; // 5.0f;
 	_hitPoints = 1;
 
 	x = Random((float)Settings::LEFT_BORDER, (float)Settings::RIGHT_BORDER - width);
 	std::this_thread::sleep_for(std::chrono::seconds(1));
 	y = Random((float)Settings::BOTTOM_BORDER, (float)Settings::TOP_BORDER - height);
+
 	std::this_thread::sleep_for(std::chrono::seconds(1));
+
 	setDirection();
 }
 
@@ -38,8 +41,9 @@ inline float SimpleEnemy::Random(float min, float max)
 
 void SimpleEnemy::Move()
 {
-	float y_pos = y + speed * math::sin(_angle * (math::PI / 180));
-	float x_pos = x + speed * math::cos(_angle * (math::PI / 180));
+	float y_pos = y + _speed * math::sin(_angle * (math::PI / 180));
+	float x_pos = x + _speed * math::cos(_angle * (math::PI / 180));
+
 	if (y_pos > Settings::BOTTOM_BORDER - SIZE_COEF &&
 		y_pos + height < Settings::TOP_BORDER + SIZE_COEF &&
 		x_pos + width < Settings::RIGHT_BORDER + SIZE_COEF &&
@@ -53,6 +57,7 @@ void SimpleEnemy::Move()
 void SimpleEnemy::onCollision()
 {
 	MM::manager.PlaySample("CollisionSound");
+
 	if (_angle  > 180.0f)
 	{
 		_angle = _angle - 180.0f;
@@ -76,4 +81,34 @@ void SimpleEnemy::Hit()
 size_t SimpleEnemy::getCurrentHitPoints()
 {
 	return _hitPoints;
+}
+
+void SimpleEnemy::chargeObjectShield()
+{
+	_collisionObj_shield = 5;
+}
+
+void SimpleEnemy::chargeWallShield()
+{
+	_collisionWall_shield = 10;
+}
+
+void SimpleEnemy::decreaseShield()
+{
+	if (_collisionObj_shield != 0)
+		--_collisionObj_shield;
+
+	if (_collisionWall_shield != 0)
+		--_collisionWall_shield;
+
+}
+
+bool SimpleEnemy::isObjectShieldOn()
+{
+	return _collisionObj_shield != 0;
+}
+
+bool SimpleEnemy::isWallShieldOn()
+{
+	return _collisionWall_shield != 0;
 }

@@ -23,12 +23,7 @@ void Settings::setBorders()
 	Settings::RIGHT_BORDER = Settings::WINDOW_WIDTH - 10;
 }
 
-bool Settings::Serialisation()
-{
-	return 0;
-}
-
-bool Settings::Deserialisation()
+bool Settings::LoadSettings()
 {
 	std::ifstream input;
 

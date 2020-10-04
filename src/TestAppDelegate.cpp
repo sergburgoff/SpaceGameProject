@@ -4,11 +4,6 @@
 #include "TestWidget.h"
 #include "Settings.h"
 
-enum {
-	WINDOW_WIDTH = 1024,
-	WINDOW_HEIGHT = 768
-};
-
 TestAppDelegate::TestAppDelegate()
 {
 }
@@ -23,8 +18,6 @@ void TestAppDelegate::GameContentSize(int deviceWidth, int deviceHeight, int &wi
 	//
 	width = WINDOW_WIDTH;
 	height = WINDOW_HEIGHT;
-	//width = deviceWidth;
-	//height = deviceHeight;
 
 	Settings::WINDOW_WIDTH = width;
 	Settings::WINDOW_HEIGHT = height;
@@ -51,7 +44,7 @@ void TestAppDelegate::LoadResources()
 	// Обычно в этом методе выполняется скрипт, в котором определяется,
 	// какие ресурсы нужно загрузить и какой игровой слой положить на экран.
 	//
-	Settings::Deserialisation();
+	Settings::LoadSettings();
 	Core::LuaExecuteStartupScript("start.lua");
 }
 

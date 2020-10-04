@@ -5,8 +5,10 @@
 Bullet::Bullet(float x, float y) : MovableTarget("Bullet")
 {
 	MM::manager.PlaySample("ShotSound");
+
 	this->x = x;
 	this->y = y;
+
 	speed = Settings::BULLET_SPEED; //8.0f;
 	setDirection();
 }

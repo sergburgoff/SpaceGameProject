@@ -1,22 +1,19 @@
 #include "stdafx.h"
 #include "Cursor.h"
 
-Cursor::Cursor() : GameObject("CURSOR_AIM"),
+Cursor::Cursor() 
+	: GameObject("CURSOR_AIM"),
 	height(50.0f),
 	width(50.0f)
-{
-
-}
+{}
 
 void Cursor::ChangeState(State newState)
-{
-
-}
+{}
 
 void Cursor::Draw()
 {
 	IPoint mouse_pos = Core::mainInput.GetMousePos();
-	switch (currentState)
+	switch (_currentState)
 	{
 	case PASSIVE:
 		setTexture("CURSOR_PASSIVE");
@@ -27,10 +24,8 @@ void Cursor::Draw()
 	case AIM:
 		setTexture("CURSOR_AIM");
 		break;
-	case RELOAD:
-		setTexture("CURSOR_RELOAD");
-		break;
 	}
+
 	Render::device.PushMatrix();
 	_texture->Bind();
 	Render::DrawRect((float)mouse_pos.x - width / 2,

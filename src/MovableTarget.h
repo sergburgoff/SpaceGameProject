@@ -9,19 +9,10 @@ public:
 	virtual bool CheckWallCollision();
 	virtual void onCollision() = 0;
 
-	virtual void chargeObjectShield();
-	virtual void chargeWallShield();
-	virtual void decreaseShield();
-	virtual bool isObjectShieldOn();
-	virtual bool isWallShieldOn();
-
 protected:
 	virtual void setDirection() {}
-public:
-	const std::string type;
+
 protected:
-	float speed;
-	size_t collisionObj_shield;
-	size_t collisionWall_shield;
+	float _speed;
 };
 

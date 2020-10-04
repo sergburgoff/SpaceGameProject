@@ -9,13 +9,12 @@ public:
 		PASSIVE,
 		ACTIVE,
 		AIM,
-		RELOAD
 	};
 	void ChangeState(State newState);
 	void Draw() override;
 
 private:
 	float width, height;
-	State currentState;
+	State _currentState;
 };
 
