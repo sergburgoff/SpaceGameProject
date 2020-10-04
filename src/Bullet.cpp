@@ -10,6 +10,11 @@ Bullet::Bullet(float x, float y) : MovableTarget("Bullet")
 	setDirection();
 }
 
+Bullet::~Bullet()
+{
+	int sample = MM::manager.PlaySample("ExplosionSound");
+}
+
 void Bullet::setDirection()
 {
 	FPoint mouse_pos = Core::mainInput.GetMousePos();
