@@ -52,6 +52,7 @@ void SimpleEnemy::Move()
 
 void SimpleEnemy::onCollision()
 {
+	MM::manager.PlaySample("CollisionSound");
 	if (_angle  > 180.0f)
 	{
 		_angle = _angle - 180.0f;

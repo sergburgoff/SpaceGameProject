@@ -51,7 +51,10 @@ void Gun::Reloading()
 
 	if (_reload >= Settings::RELOADING_TIME * 0.66
 		&& _reload < Settings::RELOADING_TIME * 0.99)
+	{
+		MM::manager.PlaySample("ChargeSound");
 		setTexture("GunReload3");
+	}
 
 	if (_reload != Settings::RELOADING_TIME)
 		++_reload;

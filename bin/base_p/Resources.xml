@@ -17,6 +17,9 @@
     <texture id="ArmoredEnemyDamaged" path="textures/Local/Targets/ArmoredEnemy_2" />
 	</Textures>
   <Sounds>
-    <sample id="ExplosionSound" path="sounds/Explosion.mp3" mode="stream"/>
+    <sample id="ExplosionSound" path="sounds/Explosion.ogg" mode="cache"/>
+    <sample id="ChargeSound" path="sounds/Charge.ogg" mode="cache"/>
+    <sample id="CollisionSound" path="sounds/Collision.ogg" mode ="cache"/>
+    <sample id="ShotSound" path="sounds/Shot.ogg" mode="cache"/>
   </Sounds>
 </Resources>
