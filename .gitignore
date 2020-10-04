@@ -6,4 +6,4 @@ projects/
 bin/write_directory/
 *.exe
 *.pdb
-
+*.mp3
