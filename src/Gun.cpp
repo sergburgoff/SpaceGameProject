@@ -21,13 +21,12 @@ void Gun::Draw()
 
 	IRect texRect = _texture->getBitmapRect();
 	FRect rect(texRect);
-	rect.Scale(width, height);
 	FRect uv(0, 1, 0 , 1);
 	_texture->TranslateUV(rect, uv);
 
-	//Render::device.MatrixScale(width, height, 0);
-	Render::device.MatrixTranslate(-width *0.5,
-		-height * 0.5, 0.0f);
+	Render::device.MatrixScale(0.23);
+	Render::device.MatrixTranslate(-texRect.width *0.5,
+		-texRect.height * 0.5, 0.0f);
 	_texture->Bind();
 	Render::DrawQuad(rect,uv);
 	Render::device.PopMatrix();
