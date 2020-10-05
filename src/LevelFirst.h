@@ -38,7 +38,7 @@ private:
 	bool isWin = false;
 	bool isLose = false;
 
-	GameObject background("Background");
+	GameObject background = GameObject("Background");
 
 	EffectsContainer _effCont;
 	ParticleEffectPtr _eff;

@@ -10,6 +10,7 @@
 #include "Bullet.h"
 #include "LevelFirst.h"
 #include "gameTimer.h"
+#include "Settings.h"
 #include <iostream>
 #include <fstream>
 
@@ -26,6 +27,8 @@ LevelFirst::LevelFirst(const std::string& name, rapidxml::xml_node<>* elem)
 
 void LevelFirst::Init()
 {
+	background.setPosition(-20, 0);
+	background.Scale(Settings::WINDOW_WIDTH + 25, Settings::WINDOW_HEIGHT + 25);
 
 	myGun.setPosition(436.0f, 100.0f);
 	myGun.Scale(500.0f, 500.0f);

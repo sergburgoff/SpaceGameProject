@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "GameObject.h"
+#include "Settings.h"
 
-#define SIZE_COEF 15.f
 
 GameObject::GameObject(std::string texture_name) 
 	: x(0)
