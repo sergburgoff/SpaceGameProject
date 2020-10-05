@@ -13,7 +13,7 @@
 #include <iostream>
 #include <fstream>
 
-#define DEBUG
+//#define DEBUG
 
 LevelFirst::LevelFirst(const std::string& name, rapidxml::xml_node<>* elem)
 	: Widget(name)
@@ -46,6 +46,8 @@ void LevelFirst::Init()
 		newEnemy->Scale(90.0f, 90.0f);
 		EnemiesCollection.push_back(newEnemy);
 	}
+	
+	myTimer.ReturnToStartTime();
 }
 
 void LevelFirst::Draw()
@@ -135,28 +137,32 @@ void LevelFirst::Draw()
 	//
 	_effCont.Draw();
 
+	Render::BindFont("arial");
+
 #ifdef DEBUG
+	IPoint mouse_pos = Core::mainInput.GetMousePos();
+
 	Render::device.SetTexturing(false);
 	Render::BeginColor(Color(255, 128, 0, 255));
 	Render::DrawRect(924, 0, 100, 100);
 	Render::EndColor();
 	Render::device.SetTexturing(true);
+
+	Render::PrintString(924 + 100 / 2, 35, utils::lexical_cast(mouse_pos.x) + ", " + utils::lexical_cast(mouse_pos.y), 1.f, CenterAlign);
 #endif
 
-	Render::BindFont("arial");
-	Render::PrintString(924 + 100 / 2, 35, utils::lexical_cast(mouse_pos.x) + ", " + utils::lexical_cast(mouse_pos.y), 1.f, CenterAlign);
 	Render::PrintString(800.0f, 750.0f, "Time left: " + utils::lexical_cast(myTimer.getCurrTime()), 3.f, CenterAlign);
 
 	if (myTimer.getCurrTime() == 0 && !isWin)
 	{
-		Render::PrintString(500.f, 500.f, "You Lose!", 1.f, CenterAlign);
-		Render::PrintString(500.f, 400.f, "Press \"R\" to restart", 1.f, CenterAlign);
+		Render::PrintString(500.f, 500.f, "You Lose!", 3.f, CenterAlign);
+		Render::PrintString(500.f, 400.f, "Press \"R\" to restart", 2.f, CenterAlign);
 	}
 
 	if (_enemiesCount == 0 && !isLose)
 	{
-		Render::PrintString(500.f, 550.f, "You Lose!", 1.f, CenterAlign);
-		Render::PrintString(500.f, 400.f, "Press \"R\" to restart", 1.f, CenterAlign);
+		Render::PrintString(500.f, 550.f, "You Win!", 3.f, CenterAlign);
+		Render::PrintString(500.f, 400.f, "Press \"R\" to restart", 2.f, CenterAlign);
 	}
 }
 
@@ -209,7 +215,7 @@ bool LevelFirst::MouseDown(const IPoint &mouse_pos)
 {
 	if (Core::mainInput.GetMouseLeftButton() && myGun.isReadyToFire())
 	{
-		Bullet * newBullet = new Bullet(432.0f, 92.0f);
+		Bullet * newBullet = new Bullet(415.0f, 88.0f); //425
 		newBullet->Scale(50.0f, 50.0f);
 
 		BulletsCollection.push_back(newBullet);
@@ -220,7 +226,7 @@ bool LevelFirst::MouseDown(const IPoint &mouse_pos)
 
 void LevelFirst::CharPressed(int unicodeChar)
 {
-	if (unicodeChar == 114 || unicodeChar == 82)
+	if (unicodeChar == 114 || unicodeChar == 82 || unicodeChar == 1082 || unicodeChar == 1050)
 	{
 		ClearScreen();
 		Init();
@@ -261,7 +267,7 @@ bool LevelFirst::LoadLevelSettings()
 	_armoredEnemiesCount = std::stof(inLine);
 	input >> inLine;
 	input >> inLine;
-	myTimer.addSeconds(std::stof(inLine));
+	myTimer.setStartTime(std::stof(inLine));
 
 	input.close();
 

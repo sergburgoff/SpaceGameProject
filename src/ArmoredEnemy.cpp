@@ -5,7 +5,7 @@
 ArmoredEnemy::ArmoredEnemy() : SimpleEnemy()
 {
 	setTexture("ArmoredEnemy");
-	speed = Settings::ARMORED_ENEMIES_SPEED;
+	_speed = Settings::ARMORED_ENEMIES_SPEED;
 	_hitPoints = 2;
 }
 void ArmoredEnemy::Hit()

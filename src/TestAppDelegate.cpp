@@ -1,12 +1,16 @@
 #include "stdafx.h"
 #include "TestAppDelegate.h"
 #include "LevelFirst.h"
-#include "TestWidget.h"
 #include "Settings.h"
 
 TestAppDelegate::TestAppDelegate()
 {
 }
+
+enum {
+	WINDOW_WIDTH = 1024,
+	WINDOW_HEIGHT = 768
+};
 
 void TestAppDelegate::GameContentSize(int deviceWidth, int deviceHeight, int &width, int &height)
 {
@@ -58,6 +62,7 @@ void TestAppDelegate::OnPostDraw() {
 	if (!Render::isFontLoaded("arial"))
 		return;
 
+#ifdef DEBUG
 	//
 	// Перед вызовом метода Render::PrintString() нужно привязать нужный шрифт
 	//
@@ -74,4 +79,5 @@ void TestAppDelegate::OnPostDraw() {
 	Render::PrintString(x, y -= dy, std::string("Textures: ") + utils::lexical_cast(Core::resourceManager.GetMemoryInUse<Render::Texture>() / 1024) + std::string("K"), 1.0f, RightAlign, BottomAlign);
 	Render::PrintString(x, y -= dy, std::string("Particles: ") + utils::lexical_cast(Core::resourceManager.GetMemoryInUse<ParticleEffect>() / 1024) + std::string("K"), 1.0f, RightAlign, BottomAlign);
 	Render::PrintString(x, y -= dy, std::string("Models: ") + utils::lexical_cast(Core::resourceManager.GetMemoryInUse<Render::ModelAnimation>() / 1024) + std::string("K"), 1.0f, RightAlign, BottomAlign);
+#endif
 }

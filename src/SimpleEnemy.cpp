@@ -8,19 +8,26 @@
 
 SimpleEnemy::SimpleEnemy() : MovableTarget("SimpleEnemy")
 {
-	collisionObj_shield = 0;
-	collisionWall_shield = 0;
+	_collisionObj_shield = 0;
+	_collisionWall_shield = 0;
 
 	_speed = Settings::SIMPLE_ENEMIES_SPEED; // 5.0f;
 	_hitPoints = 1;
 
-	x = Random((float)Settings::LEFT_BORDER, (float)Settings::RIGHT_BORDER - width);
+	x = Random((float)Settings::LEFT_BORDER + SIZE_COEF, (float)(Settings::RIGHT_BORDER - 100));
 	std::this_thread::sleep_for(std::chrono::seconds(1));
-	y = Random((float)Settings::BOTTOM_BORDER, (float)Settings::TOP_BORDER - height);
+	y = Random((float)Settings::BOTTOM_BORDER + 150 + SIZE_COEF, (float)(Settings::TOP_BORDER - 100));
 
 	std::this_thread::sleep_for(std::chrono::seconds(1));
 
 	setDirection();
+}
+
+bool SimpleEnemy::CheckWallCollision()
+{
+	return x + width > Settings::RIGHT_BORDER ||
+		y + height > Settings::TOP_BORDER ||
+		y < Settings::BOTTOM_BORDER + 150 || x < Settings::LEFT_BORDER;
 }
 
 inline int SimpleEnemy::Random(int min, int max)
@@ -44,7 +51,7 @@ void SimpleEnemy::Move()
 	float y_pos = y + _speed * math::sin(_angle * (math::PI / 180));
 	float x_pos = x + _speed * math::cos(_angle * (math::PI / 180));
 
-	if (y_pos > Settings::BOTTOM_BORDER - SIZE_COEF &&
+	if (y_pos > Settings::BOTTOM_BORDER + 150 - SIZE_COEF &&
 		y_pos + height < Settings::TOP_BORDER + SIZE_COEF &&
 		x_pos + width < Settings::RIGHT_BORDER + SIZE_COEF &&
 		x_pos > Settings::LEFT_BORDER - SIZE_COEF)

@@ -27,7 +27,7 @@ public:
 
 	bool LoadLevelSettings();
 
-	void SetEffect(std::string effect_name, float x, float y)
+	void SetEffect(std::string effect_name, float x, float y);
 
 private:
 	void Init();

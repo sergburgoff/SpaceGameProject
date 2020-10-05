@@ -11,6 +11,8 @@ public:
 	virtual void Hit();
 	virtual size_t getCurrentHitPoints();
 
+	bool CheckWallCollision() override;
+
 	virtual void chargeObjectShield();
 	virtual void chargeWallShield();
 	virtual void decreaseShield();

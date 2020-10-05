@@ -12,15 +12,25 @@ void gameTimer::Tick()
 	{
 		if (_end.count() != 0)
 		{
-			--end;
+			--_end;
 			_last_iteration = std::chrono::high_resolution_clock::now();
 		}
 	}
 }
 
-void gameTimer::addSeconds(size_t _time)
+void gameTimer::addSeconds(size_t time)
 {
-	_end = std::chrono::seconds(_time);
+	_end = std::chrono::seconds(time);
+}
+
+void gameTimer::setStartTime(size_t time)
+{
+	_start = std::chrono::seconds(time);
+}
+
+void gameTimer::ReturnToStartTime()
+{
+	_end = _start;
 }
 
 size_t gameTimer::getCurrTime()
