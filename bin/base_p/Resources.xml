@@ -6,6 +6,7 @@
 		</font>
 	</FreeTypeFonts>
 	<Textures>
+    <texture id="Background" path="textures/Local/Backgrounds/Background.png" />
     <texture id="GunReady" path="textures/Local/Gun/Cannon_3.png" />
     <texture id="GunReload1" path="textures/Local/Gun/Cannon_0.png" />
     <texture id="GunReload2" path="textures/Local/Gun/Cannon_1.png" />

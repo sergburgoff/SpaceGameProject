@@ -52,6 +52,8 @@ void LevelFirst::Init()
 
 void LevelFirst::Draw()
 {
+	background.Draw();
+
 	for (size_t cur_bullet = 0; cur_bullet < BulletsCollection.size(); ++cur_bullet)
 	{
 		BulletsCollection[cur_bullet]->Move();
