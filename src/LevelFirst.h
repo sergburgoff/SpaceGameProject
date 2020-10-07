@@ -14,6 +14,10 @@ public:
 	void Draw() override;
 	void Update(float dt) override;
 
+	//
+	// Очистка экрана от целей, которые еще не были уничтожены
+	// Вызывается при рестарте
+	//
 	void ClearScreen();
 
 	void AcceptMessage(const Message& message) override;
@@ -25,8 +29,14 @@ public:
 	void KeyPressed(int keyCode) override;
 	void CharPressed(int unicodeChar) override;
 
+	//
+	// Загрузка настроек уровня
+	//
 	bool LoadLevelSettings();
 
+	//
+	// Установка эффекта в указанных координатах
+	//
 	void SetEffect(std::string effect_name, float x, float y);
 
 private:
@@ -38,14 +48,14 @@ private:
 	bool isWin = false;
 	bool isLose = false;
 
-	GameObject background = GameObject("Background");
+	GameObject background = GameObject("Background"); // Фоновое изображение
 
 	EffectsContainer _effCont;
 	ParticleEffectPtr _eff;
 
-	size_t _simpleEnemiesCount;
-	size_t _armoredEnemiesCount;
-	size_t _enemiesCount;
+	size_t _simpleEnemiesCount; // Количество простых врагов
+	size_t _armoredEnemiesCount; // Количество бронированных врагов
+	size_t _enemiesCount; // Общее количество врагов
 
 	gameTimer myTimer;
 	Gun myGun;

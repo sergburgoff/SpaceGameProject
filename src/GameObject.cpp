@@ -28,12 +28,6 @@ void GameObject::setPosition(float x, float y)
 	this->x = x;
 	this->y = y;
 }
-
-void GameObject::Rotate(float _angle)
-{
-	this->_angle = _angle;
-}
-
 void GameObject::Scale(float width, float hight)
 {
 	this->width = width;
@@ -70,6 +64,9 @@ void GameObject::Draw()
 
 bool GameObject::CheckObjectCollision(GameObject *first, GameObject *second)
 {
+	//
+	// Проверка, произошло ли столкновение двух объектов
+	//
 	return (first->getX() < second->getX() + second->getWidth() - SIZE_COEF &&
 		first->getX() + first->getWidth() - SIZE_COEF > second->getX() &&
 		first->getY() < second->getY() + second->getHeight() - SIZE_COEF &&

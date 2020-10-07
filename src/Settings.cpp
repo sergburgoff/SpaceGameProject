@@ -17,6 +17,9 @@ float Settings::ARMORED_ENEMIES_SPEED;
 
 void Settings::setBorders()
 {
+	//
+	// Выстраиваются размеры игрового поля на основе размеров окна
+	//
 	Settings::BOTTOM_BORDER = 20;
 	Settings::TOP_BORDER = Settings::WINDOW_HEIGHT - 10;
 	Settings::LEFT_BORDER = 20;
@@ -25,6 +28,9 @@ void Settings::setBorders()
 
 bool Settings::LoadSettings()
 {
+	//
+	// Загрузка настроек скоростей объектов и времени перезарядки
+	//
 	std::ifstream input;
 
 	input.open("base_p/settings.txt");

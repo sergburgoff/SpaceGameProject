@@ -4,6 +4,9 @@
 
 Gun::Gun() : GameObject("GunReady") 
 {
+	//
+	// Устанавливается время перезарядки, взятое из текстового файла
+	// 
 	_reload = Settings::RELOADING_TIME;
 }
 
@@ -13,6 +16,9 @@ void Gun::Draw()
 	float rel_x = mouse_pos.x - x;
 	float rel_y = mouse_pos.y - y;
 
+	//
+	// Пушка всегда повернута на курсор игрока
+	//
 	_angle = (180 / math::PI) * math::atan(rel_y, rel_x);
 
 	Render::device.PushMatrix();
@@ -39,8 +45,12 @@ bool Gun::isReadyToFire()
 
 void Gun::Reloading()
 {
+	//
+	// Определяется текстура в зависимости
+	// от того, сколько времени осталось до конца перезарядки
+	//
 	if (_reload == Settings::RELOADING_TIME)
-		setTexture("GunReady");
+		setTexture("GunReady"); 
 
 	if (_reload < Settings::RELOADING_TIME * 0.33)
 		setTexture("GunReload1");
@@ -56,6 +66,9 @@ void Gun::Reloading()
 	if(_reload == Settings::RELOADING_TIME - 1)
 		MM::manager.PlaySample("ChargeSound");
 
+	//
+	// Перезарядка
+	//
 	if (_reload != Settings::RELOADING_TIME)
 		++_reload;
 }

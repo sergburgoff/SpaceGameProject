@@ -12,6 +12,9 @@ void Cursor::ChangeState(State newState)
 
 void Cursor::Draw()
 {
+	//
+	// В зависимости от состояния курсора выбирается текстура
+	//
 	IPoint mouse_pos = Core::mainInput.GetMousePos();
 	switch (_currentState)
 	{
@@ -28,6 +31,7 @@ void Cursor::Draw()
 
 	Render::device.PushMatrix();
 	_texture->Bind();
+
 	Render::DrawRect((float)mouse_pos.x - width / 2,
 		(float)mouse_pos.y - height / 2, width, height);
 	Render::device.PopMatrix();

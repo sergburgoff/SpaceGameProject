@@ -11,20 +11,41 @@ SimpleEnemy::SimpleEnemy() : MovableTarget("SimpleEnemy")
 	_collisionObj_shield = 0;
 	_collisionWall_shield = 0;
 
-	_speed = Settings::SIMPLE_ENEMIES_SPEED; // 5.0f;
+	//
+	// Устанавливается скорость, взятая из файла
+	//
+	_speed = Settings::SIMPLE_ENEMIES_SPEED;
+
+	//
+	// У простого врага одна жизнь
+	//
 	_hitPoints = 1;
 
+	//
+	// Враг появлятеся в случайной точке в рамках игрового поля.
+	// Снизу игровое поле дополнительно ограничено для врагов, чтобы они не залетали на 
+	// территорию пушки. К границам добавлены значения, чтобы избежать застреваний врагов в краях поля
+	//
 	x = Random((float)Settings::LEFT_BORDER + SIZE_COEF, (float)(Settings::RIGHT_BORDER - 100));
 	std::this_thread::sleep_for(std::chrono::seconds(1));
 	y = Random((float)Settings::BOTTOM_BORDER + 150 + SIZE_COEF, (float)(Settings::TOP_BORDER - 100));
 
+	//
+	// Для корректной работы псевдослучайных чисел задерживаем поток
+	//
 	std::this_thread::sleep_for(std::chrono::seconds(1));
 
+	//
+	// Случайный выбор направления
+	//
 	setDirection();
 }
 
 bool SimpleEnemy::CheckWallCollision()
 {
+	//
+	// Проверка, произошло ли столкновение объекта со стеной
+	//
 	return x + width > Settings::RIGHT_BORDER ||
 		y + height > Settings::TOP_BORDER ||
 		y < Settings::BOTTOM_BORDER + 150 || x < Settings::LEFT_BORDER;
@@ -48,9 +69,16 @@ inline float SimpleEnemy::Random(float min, float max)
 
 void SimpleEnemy::Move()
 {
+	//
+	// Враг смещается в соседние координаты со скоростью _speed
+	// по вектору, который получается на основе _angle
+	//
 	float y_pos = y + _speed * math::sin(_angle * (math::PI / 180));
 	float x_pos = x + _speed * math::cos(_angle * (math::PI / 180));
 
+	//
+	// Враг не может вылететь за  рамки игрового поля.
+	//
 	if (y_pos > Settings::BOTTOM_BORDER + 150 - SIZE_COEF &&
 		y_pos + height < Settings::TOP_BORDER + SIZE_COEF &&
 		x_pos + width < Settings::RIGHT_BORDER + SIZE_COEF &&
@@ -63,8 +91,11 @@ void SimpleEnemy::Move()
 
 void SimpleEnemy::onCollision()
 {
-	MM::manager.PlaySample("CollisionSound");
+	MM::manager.PlaySample("CollisionSound"); // Звуковой эффект столкновения
 
+	//
+	// При столкновении направление врага меняется на 180 градусов
+	//
 	if (_angle  > 180.0f)
 	{
 		_angle = _angle - 180.0f;
@@ -75,12 +106,18 @@ void SimpleEnemy::onCollision()
 
 void SimpleEnemy::setDirection()
 {
+	//
+	// Случайное направление врага при рождении
+	//
 	_angle = Random(0.0f, 360.0f);
 }
 
 
 void SimpleEnemy::Hit()
 {
+	//
+	// При попадании уменьшается количество жизней.
+	//
 	if (_hitPoints != 0)
 		--_hitPoints;
 }

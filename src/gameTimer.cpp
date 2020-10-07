@@ -7,6 +7,9 @@ gameTimer::gameTimer()
 
 void gameTimer::Tick()
 {
+	//
+	// ≈сли с момента последней итерации прошла секунда, то таймер уменьшаетс€
+	//
 	if (_last_iteration + std::chrono::seconds(1) <= 
 		std::chrono::high_resolution_clock::now())
 	{

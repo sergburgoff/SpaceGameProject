@@ -4,13 +4,18 @@ class GameObject
 public:
 	GameObject(std::string texture_name);
 
-	virtual void Draw();
-	static bool CheckObjectCollision(GameObject *first,
-		GameObject *second);
+	virtual void Draw(); // Метод отрисовки объекта
 
-	void setPosition(float x, float y);
-	void Rotate(float _angle);
-	void Scale(float width, float hight);
+	//
+	// Проверка столкновений объектов.
+	// Может быть так же использовано для курсора и изменения его состояния при наведении 
+	// на какие-либо объекты
+	//
+	static bool CheckObjectCollision(GameObject *first,
+		GameObject *second); 
+
+	void setPosition(float x, float y); // Установка позиции объекта
+	void Scale(float width, float hight); // Установка размеров объекта
 
 	float getX();
 	float getY();
